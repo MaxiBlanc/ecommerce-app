@@ -5,22 +5,30 @@ export default function Cart() {
   const [carrito, setCarrito] = useState([]);
 
   const handleCheckout = async () => {
-    const items = carrito.map(product => ({
-      title: product.name,
-      unit_price: product.price,
-      quantity: product.cantidad,
-      currency_id: 'ARS'  // Opcional pero recomendado para MercadoPago
-    }));
+  if (carrito.length === 0) {
+    alert('El carrito está vacío');
+    return;
+  }
 
-    try {
-      const res = await axios.post('https://ecommerce-app-0bh1.onrender.com/mercadopago/create_preference', { items });
-      const preferenceId = res.data.id;
-      window.location.href = `https://www.mercadopago.com.ar/checkout/v1/payment?pref_id=${preferenceId}`;
-    } catch (error) {
-      console.error('Error en checkout:', error);
-      alert('Error al iniciar pago');
-    }
-  };
+  const items = carrito.map(product => ({
+    title: product.name,
+    unit_price: Number(product.price),
+    quantity: Number(product.cantidad),
+    currency_id: 'ARS'
+  }));
+
+  console.log('Items para Mercado Pago:', items);
+
+  try {
+    const res = await axios.post('https://ecommerce-app-0bh1.onrender.com/mercadopago/create_preference', { items });
+    const preferenceId = res.data.id;
+    window.location.href = `https://www.mercadopago.com.ar/checkout/v1/payment?pref_id=${preferenceId}`;
+  } catch (error) {
+    console.error('Error en checkout:', error);
+    alert('Error al iniciar pago');
+  }
+};
+
 
   useEffect(() => {
     const datos = JSON.parse(localStorage.getItem('carrito')) || [];
