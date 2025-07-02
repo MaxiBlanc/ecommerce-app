@@ -30,6 +30,7 @@ router.post('/create_preference', async (req, res) => {
     console.log("Preference:", preference);
 
     const response = await mercadopago.preferences.create(preference);
+    console.log('MercadoPago preference response:', response.body);
 
     res.json({ id: response.body.id });
   } catch (error) {
