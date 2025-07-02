@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 export default function ProductAdmin() {
@@ -15,11 +15,7 @@ export default function ProductAdmin() {
 
   const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
       const res = await axios.get(`${API_URL}/products`);
       setProducts(res.data);
@@ -27,7 +23,11 @@ export default function ProductAdmin() {
       console.error('Error al obtener productos', error);
       alert('Error al obtener productos');
     }
-  };
+  }, [API_URL]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
   const handleImageFilesChange = (e) => {
     setImageFiles(Array.from(e.target.files)); // múltiple selección
