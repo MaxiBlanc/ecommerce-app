@@ -21,9 +21,9 @@ export default function Cart() {
 
   try {
     const res = await axios.post('https://ecommerce-app-0bh1.onrender.com/mercadopago/create_preference', { items });
-    const preferenceId = res.data.id;
+    const initPoint = res.data.init_point;
     console.log('Preference ID:', preferenceId);
-    window.location.href = `https://www.mercadopago.com.ar/checkout/v1/payment?pref_id=${preferenceId}`;
+    window.location.href = initPoint;
   } catch (error) {
     console.error('Error en checkout:', error);
     alert('Error al iniciar pago');
