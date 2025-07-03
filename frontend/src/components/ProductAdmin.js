@@ -6,7 +6,6 @@ export default function ProductAdmin() {
   const [price, setPrice] = useState('');
   const [type, setType] = useState('');
   const [description, setDescription] = useState('');
-  const [stock, setStock] = useState('');
   const [sizes, setSizes] = useState([]);
   const [newSize, setNewSize] = useState('');
   const [newStock, setNewStock] = useState('');
@@ -80,7 +79,6 @@ export default function ProductAdmin() {
         price: parseFloat(price),
         type,
         description,
-        stock: parseInt(stock) || 0,
         imageUrls,
         sizes
       };
@@ -97,7 +95,6 @@ export default function ProductAdmin() {
       setPrice('');
       setType('');
       setDescription('');
-      setStock('');
       setSizes([]);
       setNewSize('');
       setNewStock('');
@@ -141,8 +138,7 @@ export default function ProductAdmin() {
         <input placeholder="Precio" type="number" value={price} onChange={e => setPrice(e.target.value)} required />
         <input placeholder="Tipo" value={type} onChange={e => setType(e.target.value)} required />
         <input placeholder="Descripción" value={description} onChange={e => setDescription(e.target.value)} />
-        <input placeholder="Stock general" type="number" value={stock} onChange={e => setStock(e.target.value)} />
-
+        
         <div>
           <strong>Tallas:</strong>
           {sizes.map((s, i) => (

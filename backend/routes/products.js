@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 // Crear un producto nuevo
 router.post('/', async (req, res) => {
   try {
-    const { name, price, description, stock, type, imageUrls, sizes } = req.body;
+    const { name, price, description, type, imageUrls, sizes } = req.body;
 
     if (!name || !price || !type) {
       return res.status(400).json({ message: 'Faltan campos obligatorios (name, price, type)' });
@@ -67,7 +67,7 @@ router.delete('/:id', async (req, res) => {
 router.patch('/:id', async (req, res) => {
   try {
     const productId = req.params.id;
-    const { name, price, description, stock, type, imageUrls, sizes } = req.body;
+    const { name, price, description, type, imageUrls, sizes } = req.body;
 
     const productRef = db.collection('products').doc(productId);
     const productDoc = await productRef.get();
@@ -107,13 +107,6 @@ router.patch('/:id', async (req, res) => {
       updatedData.description = description;
     }
 
-    if (stock !== undefined) {
-      const parsedStock = parseInt(stock);
-      if (isNaN(parsedStock) || parsedStock < 0) {
-        return res.status(400).json({ message: 'Stock inválido' });
-      }
-      updatedData.stock = parsedStock;
-    }
 
     if (imageUrls !== undefined) {
       if (!Array.isArray(imageUrls)) {
