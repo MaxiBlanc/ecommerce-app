@@ -113,7 +113,6 @@ export default function ProductAdmin() {
     setPrice(product.price);
     setType(product.type);
     setDescription(product.description || '');
-    setStock(product.stock || '');
     setSizes(product.sizes || []);
     setImageUrls(product.imageUrls || []);
     setImageFiles([]);
