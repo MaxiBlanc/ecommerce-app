@@ -178,7 +178,6 @@ export default function ProductAdmin() {
             setPrice('');
             setType('');
             setDescription('');
-            setStock('');
             setSizes([]);
             setNewSize('');
             setNewStock('');
