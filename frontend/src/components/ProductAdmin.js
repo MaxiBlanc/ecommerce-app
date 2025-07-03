@@ -16,11 +16,11 @@ export default function ProductAdmin() {
   const [uploading, setUploading] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+  const API_URL = process.env.REACT_APP_API_URL || 'https://ecommerce-app-0bh1.onrender.com/';
 
   const fetchProducts = useCallback(async () => {
     try {
-      const res = await axios.get(`${API_URL}/products`);
+      const res = await axios.get(`${API_URL}products`);
       setProducts(res.data);
     } catch (error) {
       console.error('Error al obtener productos', error);
@@ -43,7 +43,7 @@ export default function ProductAdmin() {
       for (const file of imageFiles) {
         const formData = new FormData();
         formData.append('image', file);
-        const res = await axios.post(`${API_URL}/upload`, formData, {
+        const res = await axios.post(`${API_URL}upload`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
         uploadedUrls.push(res.data.url);
@@ -86,10 +86,10 @@ export default function ProductAdmin() {
       };
 
       if (editingId) {
-        await axios.patch(`${API_URL}/products/${editingId}`, product);
+        await axios.patch(`${API_URL}products/${editingId}`, product);
         setEditingId(null);
       } else {
-        await axios.post(`${API_URL}/products`, product);
+        await axios.post(`${API_URL}products`, product);
       }
 
       // Reset form
@@ -125,7 +125,7 @@ export default function ProductAdmin() {
   const handleDelete = async (id) => {
     if (!window.confirm('¿Estás seguro que querés eliminar este producto?')) return;
     try {
-      await axios.delete(`${API_URL}/products/${id}`);
+      await axios.delete(`${API_URL}products/${id}`);
       fetchProducts();
     } catch (error) {
       console.error('Error al eliminar producto', error);

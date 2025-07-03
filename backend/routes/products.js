@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
 
     const validSizes = (sizes || []).map(s => ({
       talla: String(s.talla),
-      stock: Number(s.stock)
+      stock: Number(s.stock) || 0
     }));
 
     const newProduct = {
@@ -37,7 +37,6 @@ router.post('/', async (req, res) => {
       price,
       type,
       description: description || '',
-      stock: stock || 0,
       imageUrls: Array.isArray(imageUrls) ? imageUrls : [],
       sizes: validSizes,
       createdAt: new Date()
