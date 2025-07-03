@@ -7,11 +7,14 @@ export default function ProductAdmin() {
   const [type, setType] = useState('');
   const [description, setDescription] = useState('');
   const [stock, setStock] = useState('');
-  const [imageFiles, setImageFiles] = useState([]); // archivos seleccionados
-  const [imageUrls, setImageUrls] = useState([]);   // URLs subidas
+  const [sizes, setSizes] = useState([]);
+  const [newSize, setNewSize] = useState('');
+  const [newStock, setNewStock] = useState('');
+  const [imageFiles, setImageFiles] = useState([]);
+  const [imageUrls, setImageUrls] = useState([]);
   const [products, setProducts] = useState([]);
   const [uploading, setUploading] = useState(false);
-  const [editingId, setEditingId] = useState(null); // para saber si estamos editando
+  const [editingId, setEditingId] = useState(null);
 
   const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
@@ -30,7 +33,7 @@ export default function ProductAdmin() {
   }, [fetchProducts]);
 
   const handleImageFilesChange = (e) => {
-    setImageFiles(Array.from(e.target.files)); // múltiple selección
+    setImageFiles(Array.from(e.target.files));
   };
 
   const handleUploadImages = async () => {
@@ -54,13 +57,22 @@ export default function ProductAdmin() {
     setUploading(false);
   };
 
+  const handleAddSize = () => {
+    if (!newSize || !newStock || isNaN(newStock) || parseInt(newStock) < 0) return;
+    setSizes([...sizes, { talla: newSize, stock: parseInt(newStock) }]);
+    setNewSize('');
+    setNewStock('');
+  };
+
+  const handleDeleteSize = (index) => {
+    const updated = [...sizes];
+    updated.splice(index, 1);
+    setSizes(updated);
+  };
+
   const handleAddOrUpdateProduct = async (e) => {
     e.preventDefault();
-
-    if (uploading) {
-      alert('Espera a que terminen de cargar las imágenes');
-      return;
-    }
+    if (uploading) return alert('Esperá a que terminen de cargar las imágenes');
 
     try {
       const product = {
@@ -70,23 +82,25 @@ export default function ProductAdmin() {
         description,
         stock: parseInt(stock) || 0,
         imageUrls,
+        sizes
       };
 
       if (editingId) {
-        // Editar producto existente
         await axios.patch(`${API_URL}/products/${editingId}`, product);
         setEditingId(null);
       } else {
-        // Agregar producto nuevo
         await axios.post(`${API_URL}/products`, product);
       }
 
-      // Limpiar formulario
+      // Reset form
       setName('');
       setPrice('');
       setType('');
       setDescription('');
       setStock('');
+      setSizes([]);
+      setNewSize('');
+      setNewStock('');
       setImageFiles([]);
       setImageUrls([]);
       fetchProducts();
@@ -103,8 +117,9 @@ export default function ProductAdmin() {
     setType(product.type);
     setDescription(product.description || '');
     setStock(product.stock || '');
+    setSizes(product.sizes || []);
     setImageUrls(product.imageUrls || []);
-    setImageFiles([]); // si quieres que pueda subir más imágenes, queda listo
+    setImageFiles([]);
   };
 
   const handleDelete = async (id) => {
@@ -126,7 +141,22 @@ export default function ProductAdmin() {
         <input placeholder="Precio" type="number" value={price} onChange={e => setPrice(e.target.value)} required />
         <input placeholder="Tipo" value={type} onChange={e => setType(e.target.value)} required />
         <input placeholder="Descripción" value={description} onChange={e => setDescription(e.target.value)} />
-        <input placeholder="Stock" type="number" value={stock} onChange={e => setStock(e.target.value)} />
+        <input placeholder="Stock general" type="number" value={stock} onChange={e => setStock(e.target.value)} />
+
+        <div>
+          <strong>Tallas:</strong>
+          {sizes.map((s, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span>{s.talla} - Stock: {s.stock}</span>
+              <button type="button" onClick={() => handleDeleteSize(i)}>❌</button>
+            </div>
+          ))}
+          <div style={{ display: 'flex', gap: 10 }}>
+            <input placeholder="Talla" value={newSize} onChange={e => setNewSize(e.target.value)} />
+            <input placeholder="Stock" type="number" value={newStock} onChange={e => setNewStock(e.target.value)} />
+            <button type="button" onClick={handleAddSize}>➕</button>
+          </div>
+        </div>
 
         <label>Seleccionar imágenes (múltiples):</label>
         <input type="file" multiple accept="image/*" onChange={handleImageFilesChange} />
@@ -153,6 +183,9 @@ export default function ProductAdmin() {
             setType('');
             setDescription('');
             setStock('');
+            setSizes([]);
+            setNewSize('');
+            setNewStock('');
             setImageUrls([]);
             setImageFiles([]);
           }}>Cancelar edición</button>

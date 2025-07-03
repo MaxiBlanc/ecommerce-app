@@ -17,11 +17,20 @@ router.get('/', async (req, res) => {
 // Crear un producto nuevo
 router.post('/', async (req, res) => {
   try {
-    const { name, price, description, stock, type, imageUrls } = req.body;
+    const { name, price, description, stock, type, imageUrls, sizes } = req.body;
 
     if (!name || !price || !type) {
       return res.status(400).json({ message: 'Faltan campos obligatorios (name, price, type)' });
     }
+
+    if (sizes && !Array.isArray(sizes)) {
+      return res.status(400).json({ message: 'sizes debe ser un array de objetos { talla, stock }' });
+    }
+
+    const validSizes = (sizes || []).map(s => ({
+      talla: String(s.talla),
+      stock: Number(s.stock)
+    }));
 
     const newProduct = {
       name,
@@ -30,7 +39,8 @@ router.post('/', async (req, res) => {
       description: description || '',
       stock: stock || 0,
       imageUrls: Array.isArray(imageUrls) ? imageUrls : [],
-      createdAt: new Date() // para ordenamiento
+      sizes: validSizes,
+      createdAt: new Date()
     };
 
     const docRef = await db.collection('products').add(newProduct);
@@ -54,10 +64,11 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// Actualizar producto
 router.patch('/:id', async (req, res) => {
   try {
     const productId = req.params.id;
-    const { name, price, description, stock, type, imageUrls } = req.body;
+    const { name, price, description, stock, type, imageUrls, sizes } = req.body;
 
     const productRef = db.collection('products').doc(productId);
     const productDoc = await productRef.get();
@@ -112,6 +123,16 @@ router.patch('/:id', async (req, res) => {
       updatedData.imageUrls = imageUrls;
     }
 
+    if (sizes !== undefined) {
+      if (!Array.isArray(sizes)) {
+        return res.status(400).json({ message: 'sizes debe ser un array' });
+      }
+      updatedData.sizes = sizes.map(s => ({
+        talla: String(s.talla),
+        stock: Number(s.stock)
+      }));
+    }
+
     await productRef.update(updatedData);
     const updatedProduct = await productRef.get();
     res.json({ id: updatedProduct.id, ...updatedProduct.data() });
@@ -121,6 +142,5 @@ router.patch('/:id', async (req, res) => {
     res.status(500).json({ message: 'Error al actualizar producto' });
   }
 });
-
 
 module.exports = router;
