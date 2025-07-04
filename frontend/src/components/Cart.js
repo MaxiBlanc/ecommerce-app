@@ -30,7 +30,6 @@ export default function Cart() {
 
 useEffect(() => {
   const datos = JSON.parse(localStorage.getItem('carrito')) || [];
-  console.log("cart", carrito.size.talla);
   setCarrito(datos);
   }, []);
 
