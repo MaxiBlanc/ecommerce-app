@@ -9,15 +9,16 @@ export default function Cart() {
     alert('El carrito está vacío');
     return;
   }
+
   const items = carrito.map(product => ({
-    title: `${product.name} - Talle: ${product.size.talla}`,
-    unit_price: Number(product.price),
-    quantity: Number(product.cantidad),
-    currency_id: 'ARS'
-  }));
-  
+  title: `${product.name} - Talle: ${product.size.talla}`,
+  unit_price: Number(product.price),
+  quantity: Number(product.cantidad),
+  currency_id: 'ARS'
+}));
+
   console.log('Items para Mercado Pago:', items);
-  
+
   try {
     const res = await axios.post('https://ecommerce-app-0bh1.onrender.com/mercadopago/create_preference', { items });
     window.location.href = res.data.init_point;
@@ -28,9 +29,9 @@ export default function Cart() {
 };
 
 
-useEffect(() => {
-  const datos = JSON.parse(localStorage.getItem('carrito')) || [];
-  setCarrito(datos);
+  useEffect(() => {
+    const datos = JSON.parse(localStorage.getItem('carrito')) || [];
+    setCarrito(datos);
   }, []);
 
   const actualizarCantidad = (id, nuevaCantidad) => {
