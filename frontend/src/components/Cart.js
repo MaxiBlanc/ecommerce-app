@@ -9,13 +9,13 @@ export default function Cart() {
     alert('El carrito está vacío');
     return;
   }
-console.log("cart", product.size.talla);
+  console.log("cart", carrito.size.talla);
   const items = carrito.map(product => ({
-  title: `${product.name} - Talle: ${product.size.talla}`,
-  unit_price: Number(product.price),
-  quantity: Number(product.cantidad),
-  currency_id: 'ARS'
-}));
+    title: `${product.name} - Talle: ${product.size.talla}`,
+    unit_price: Number(product.price),
+    quantity: Number(product.cantidad),
+    currency_id: 'ARS'
+  }));
 
   console.log('Items para Mercado Pago:', items);
 
