@@ -10,7 +10,7 @@ export default function ProductDetail() {
   const [tallaSeleccionada, setTallaSeleccionada] = useState('');
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/products/${id}`)
+    axios.get(`https://ecommerce-app-0bh1.onrender.com/products/${id}`)
       .then(res => setProducto(res.data))
       .catch(() => alert('Error al cargar el producto'));
   }, [id]);
