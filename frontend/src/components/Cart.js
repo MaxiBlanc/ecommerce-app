@@ -5,46 +5,47 @@ export default function Cart() {
   const [carrito, setCarrito] = useState([]);
 
   const handleCheckout = async () => {
-  if (carrito.length === 0) {
-    alert('El carrito está vacío');
-    return;
-  }
+    if (carrito.length === 0) {
+      alert('El carrito está vacío');
+      return;
+    }
 
-  const items = carrito.map(product => ({
-  title: `${product.name} - Talle: ${product.size.talla}`,
-  unit_price: Number(product.price),
-  quantity: Number(product.cantidad),
-  currency_id: 'ARS'
-}));
+    const items = carrito.map(product => ({
+      title: `${product.name} - Talle: ${product.size?.talla || 'N/A'}`,
+      unit_price: Number(product.price),
+      quantity: Number(product.cantidad),
+      currency_id: 'ARS'
+    }));
 
-  console.log('Items para Mercado Pago:', items);
+    console.log('Items para Mercado Pago:', items);
 
-  try {
-    const res = await axios.post('https://ecommerce-app-0bh1.onrender.com/mercadopago/create_preference', { items });
-    window.location.href = res.data.init_point;
-  } catch (error) {
-    console.error('Error en checkout:', error);
-    alert('Error al iniciar pago');
-  }
-};
-
+    try {
+      const res = await axios.post('https://ecommerce-app-0bh1.onrender.com/mercadopago/create_preference', { items });
+      window.location.href = res.data.init_point;
+    } catch (error) {
+      console.error('Error en checkout:', error);
+      alert('Error al iniciar pago');
+    }
+  };
 
   useEffect(() => {
     const datos = JSON.parse(localStorage.getItem('carrito')) || [];
     setCarrito(datos);
   }, []);
 
-  const actualizarCantidad = (id, nuevaCantidad) => {
+  const actualizarCantidad = (id, talla, nuevaCantidad) => {
     if (nuevaCantidad < 1 || isNaN(nuevaCantidad)) return;
     const actualizado = carrito.map(item =>
-      item.id === id ? { ...item, cantidad: nuevaCantidad } : item
+      item.id === id && item.size?.talla === talla
+        ? { ...item, cantidad: nuevaCantidad }
+        : item
     );
     setCarrito(actualizado);
     localStorage.setItem('carrito', JSON.stringify(actualizado));
   };
 
-  const eliminarProducto = (id) => {
-    const filtrado = carrito.filter(item => item.id !== id);
+  const eliminarProducto = (id, talla) => {
+    const filtrado = carrito.filter(item => !(item.id === id && item.size?.talla === talla));
     setCarrito(filtrado);
     localStorage.setItem('carrito', JSON.stringify(filtrado));
   };
@@ -60,8 +61,11 @@ export default function Cart() {
       ) : (
         <ul style={{ listStyle: 'none', padding: 0 }}>
           {carrito.map(item => (
-            <li key={item.id} style={{ borderBottom: '1px solid #ccc', padding: 10, display: 'flex', alignItems: 'center', gap: 20 }}>
-              {item.imageUrls && item.imageUrls.length > 0 && (
+            <li
+              key={`${item.id}-${item.size?.talla || 'default'}`}
+              style={{ borderBottom: '1px solid #ccc', padding: 10, display: 'flex', alignItems: 'center', gap: 20 }}
+            >
+              {item.imageUrls?.[0] && (
                 <img
                   src={item.imageUrls[0]}
                   alt={item.name}
@@ -69,20 +73,21 @@ export default function Cart() {
                 />
               )}
               <div style={{ flex: 1 }}>
-                <h3>{item.name}</h3> <p>"{item.size.talla}"</p>
+                <h3>{item.name}</h3>
+                <p><strong>Talle:</strong> {item.size?.talla || 'N/A'}</p>
                 <p>Precio: ${item.price}</p>
                 <p>
-                  Cantidad: 
+                  Cantidad:
                   <input
                     type="number"
                     value={item.cantidad}
                     min={1}
                     style={{ width: 60, marginLeft: 5 }}
-                    onChange={e => actualizarCantidad(item.id, parseInt(e.target.value))}
+                    onChange={e => actualizarCantidad(item.id, item.size?.talla, parseInt(e.target.value))}
                   />
                 </p>
                 <button
-                  onClick={() => eliminarProducto(item.id)}
+                  onClick={() => eliminarProducto(item.id, item.size?.talla)}
                   style={{ background: 'crimson', color: 'white', border: 'none', padding: '5px 10px' }}
                 >
                   🗑️ Eliminar
