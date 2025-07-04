@@ -1,6 +1,6 @@
-// src/components/ProductList.js
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
@@ -43,18 +43,6 @@ export default function ProductList() {
       if (newIndex >= totalImages) newIndex = 0;
       return { ...prev, [productId]: newIndex };
     });
-  };
-
-  const handleAddToCart = (product) => {
-    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    const existente = carrito.find(p => p.id === product.id);
-    if (existente) {
-      existente.cantidad += 1;
-    } else {
-      carrito.push({ ...product, cantidad: 1 });
-    }
-    localStorage.setItem('carrito', JSON.stringify(carrito));
-    alert(`${product.name} agregado al carrito`);
   };
 
   const productosAMostrar = ordenarProductos(filtrarPorTipo(products));
@@ -108,12 +96,20 @@ export default function ProductList() {
                   <p>Sin imagen</p>
                 )}
 
-                <button
-                  onClick={() => handleAddToCart(p)}
-                  style={{ marginTop: 10, backgroundColor: '#4CAF50', color: 'white', padding: '5px 10px', border: 'none', borderRadius: 4 }}
+                <Link
+                  to={`/producto/${p.id}`}
+                  style={{
+                    display: 'inline-block',
+                    marginTop: 10,
+                    backgroundColor: '#007bff',
+                    color: 'white',
+                    padding: '5px 10px',
+                    borderRadius: 4,
+                    textDecoration: 'none'
+                  }}
                 >
-                  🛒 Agregar al carrito
-                </button>
+                  Ver detalle
+                </Link>
               </li>
             );
           })}

@@ -26,6 +26,7 @@ function App() {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/logout" element={<LogoutButton />} />
           <Route path="/Product" element={<ProductAdmin />} />
+          <Route path="/producto/:id" element={<ProductDetail />} />
           <Route path="/carrito" element={<Cart />} />
           <Route path="/success" element={<Success />} />
         <Route path="/failure" element={<Failure />} />
@@ -35,5 +36,12 @@ function App() {
     </Router>
   );
 }
+
+
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import ProductList from './components/ProductList';
+import ProductDetail from './components/ProductDetail';
+import Cart from './components/Cart';
+
 
 export default App;
