@@ -69,7 +69,7 @@ export default function Cart() {
                 />
               )}
               <div style={{ flex: 1 }}>
-                <h3>{item.name}</h3>
+                <h3>{item.name}</h3> <p>"{item.price}"</p>
                 <p>Precio: ${item.price}</p>
                 <p>
                   Cantidad: 
