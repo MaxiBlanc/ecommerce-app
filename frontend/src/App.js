@@ -11,6 +11,7 @@ import Cart from './components/Cart';
 import Success from './pages/success';
 import Failure from './pages/Failure';
 import Pending from './pages/Pending';
+import ProductDetail from './components/ProductDetail';
 
 
 function App() {
