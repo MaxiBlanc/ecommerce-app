@@ -20,9 +20,6 @@ app.use('/mercadopago', mercadoPagoRoutes);
 const productsRoutes = require('./routes/products');
 app.use('/products', productsRoutes);
 
-const productsRoutes = require('./routes/products');
-app.use('/products', productsRoutes);
-
 
 // const cartRoutes = require('./routes/cart');
 // app.use('/cart', cartRoutes);
