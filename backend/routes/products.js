@@ -62,7 +62,22 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ message: 'Error al eliminar producto' });
   }
 });
+//ver producto
+router.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const doc = await db.collection('products').doc(id).get();
 
+    if (!doc.exists) {
+      return res.status(404).json({ message: 'Producto no encontrado' });
+    }
+
+    res.json({ id: doc.id, ...doc.data() });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al obtener el producto' });
+  }
+});
 // Actualizar producto
 router.patch('/:id', async (req, res) => {
   try {
