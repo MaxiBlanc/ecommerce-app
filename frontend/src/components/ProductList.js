@@ -14,7 +14,7 @@ export default function ProductList() {
 
   const fetchProductos = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/products');
+      const res = await axios.get('https://ecommerce-app-0bh1.onrender.com/products');
       setProducts(res.data);
     } catch (error) {
       console.error('Error al obtener productos', error);
