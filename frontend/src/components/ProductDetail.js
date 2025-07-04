@@ -23,7 +23,7 @@ export default function ProductDetail() {
 
     const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
     const existente = carrito.find(
-      p => p.id === producto.id && p.size?.talla === tallaSeleccionada
+      p => p.id === producto.id && p.size.talla === tallaSeleccionada
     );
 
     if (existente) {
