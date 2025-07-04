@@ -16,25 +16,26 @@ export default function ProductDetail() {
   }, [id]);
 
   const agregarAlCarrito = () => {
-    if (!tallaSeleccionada) return alert('Seleccioná una talla');
-
-    const tallaObj = producto.sizes.find(t => t.talla === tallaSeleccionada);
-    if (!tallaObj || tallaObj.stock < 1) return alert('Talla sin stock');
-
-    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    const existente = carrito.find(
-      p => p.id === producto.id && p.size.talla === tallaSeleccionada
-    );
-
-    if (existente) {
-      existente.cantidad += 1;
-    } else {
-      carrito.push({
-        id: producto.id,
-        name: producto.name,
-        price: producto.price,
-        imageUrls: producto.imageUrls,
-        size: tallaObj,
+      if (!tallaSeleccionada) return alert('Seleccioná una talla');
+      
+      const tallaObj = producto.sizes.find(t => t.talla === tallaSeleccionada);
+      if (!tallaObj || tallaObj.stock < 1) return alert('Talla sin stock');
+      
+      const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+      const existente = carrito.find(
+          p => p.id === producto.id && p.size.talla === tallaSeleccionada
+        );
+        
+        console.log("agregar carrito", tallaObj);
+        if (existente) {
+            existente.cantidad += 1;
+        } else {
+            carrito.push({
+                id: producto.id,
+                name: producto.name,
+                price: producto.price,
+                imageUrls: producto.imageUrls,
+                size: tallaObj,
         cantidad: 1
       });
     }
@@ -66,7 +67,6 @@ export default function ProductDetail() {
           </option>
         ))}
       </select>
-
       <br /><br />
       <button onClick={agregarAlCarrito}>Agregar al carrito</button>
     </div>
