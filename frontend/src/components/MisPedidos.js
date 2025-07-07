@@ -32,13 +32,13 @@ export default function MisPedidos() {
       ) : (
         pedidos.map(p => (
           <div key={p.id} style={{ border: '1px solid #ccc', marginBottom: 20, padding: 10 }}>
-            <p><strong>Fecha:</strong> {new Date(p.createdAt.seconds * 1000).toLocaleDateString()}</p>
-            <p><strong>Total:</strong> ${p.totalAmount}</p>
+            <p><strong>Fecha:</strong> {new Date(p.createdAt).toLocaleDateString()}</p>
+            <p><strong>Total:</strong> ${p.amount}</p>
             <p><strong>Estado:</strong> {p.status}</p>
             <ul>
               {p.products.map((prod, i) => (
                 <li key={i}>
-                  {prod.name} - Talle: {prod.size?.talla || 'N/A'} - Cant: {prod.quantity} - ${prod.price}
+                  {prod.title} - Cant: {prod.quantity} - ${prod.unit-price}
                 </li>
               ))}
             </ul>
