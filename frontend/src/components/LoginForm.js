@@ -18,13 +18,18 @@ export default function LoginForm() {
       const user = userCredential.user;
 
       if (!user.emailVerified) {
-        setSuccess(null);
         return setError('Debes verificar tu correo antes de iniciar sesión.');
       }
+
+      const token = await user.getIdToken(); // 👈 Obtener el token
+      localStorage.setItem('token', token); // 👈 Guardarlo
 
       setSuccess(`Bienvenido, ${user.displayName || user.email}`);
       setEmail('');
       setPassword('');
+
+      // Redireccionar si querés
+      // window.location.href = '/mis-pedidos';
     } catch (err) {
       setError('Email o contraseña incorrectos');
     }
