@@ -84,21 +84,24 @@ router.get('/', async (req, res) => {
 });
 
 // Obtener pedidos por email
+// Obtener pedidos por email (sin autenticación)
 router.get('/by-email/:email', async (req, res) => {
   try {
-    const { email } = req.params;
-    const snapshot = await db.collection('orders')
+    const email = decodeURIComponent(req.params.email);
+
+    const ordersSnapshot = await db.collection('orders')
       .where('customerEmail', '==', email)
       .orderBy('createdAt', 'desc')
       .get();
 
-    const pedidos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    res.json(pedidos);
+    const orders = ordersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    res.json(orders);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error al obtener pedidos por email' });
+    console.error('Error al obtener pedidos por email:', error);
+    res.status(500).json({ message: 'Error interno del servidor' });
   }
 });
+
 
 // Cambiar estado de pedido
 router.patch('/:id/status', async (req, res) => {
