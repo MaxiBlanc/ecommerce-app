@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { auth } from '../firebase/firebaseconfig';
 
 export default function Cart() {
   const [carrito, setCarrito] = useState([]);
@@ -10,17 +11,35 @@ export default function Cart() {
       return;
     }
 
+    const user = auth.currentUser;
+
+    if (!user || !user.email || !user.displayName) {
+      alert('Debe iniciar sesión para realizar el pago');
+      return;
+    }
+
     const items = carrito.map(product => ({
       title: `${product.name} - Talle: ${product.size?.talla || 'N/A'}`,
       unit_price: Number(product.price),
       quantity: Number(product.cantidad),
-      currency_id: 'ARS'
+      currency_id: 'ARS',
+      productId: product.id,
+      talla: product.size?.talla || 'N/A',
+      name: product.name,
+      price: product.price
     }));
 
-    console.log('Items para Mercado Pago:', items);
+    const payload = {
+      items,
+      customerName: user.displayName,
+      customerEmail: user.email
+    };
 
     try {
-      const res = await axios.post('https://ecommerce-app-0bh1.onrender.com/mercadopago/create_preference', { items });
+      const res = await axios.post(
+        'https://ecommerce-app-0bh1.onrender.com/mercadopago/create_preference',
+        payload
+      );
       window.location.href = res.data.init_point;
     } catch (error) {
       console.error('Error en checkout:', error);
