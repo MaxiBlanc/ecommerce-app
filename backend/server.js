@@ -10,8 +10,11 @@ const uploadRouter = require('./routes/upload');
 
 app.use(express.json());
 
+app.use(cors({
+  origin: 'https://ecommerce-app-f.netlify.app',
+  credentials: true
+}));
 
-app.use(cors());
 app.use(express.json());
 
 const mercadoPagoRoutes = require('./routes/mercadopago');
