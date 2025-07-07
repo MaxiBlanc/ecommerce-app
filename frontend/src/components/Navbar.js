@@ -25,6 +25,7 @@ export default function Navbar() {
       {!user && <Link to="/login" style={{ marginRight: 10 }}>Login</Link>}
       <Link to="/carrito">🛒 Ir al carrito</Link>
       <Link to="/Product">Producto</Link>
+      <Link to="/mis-pedidos">Mis Pedidos</Link>
       {user && (
         <button onClick={handleLogout} style={{ marginLeft: 10 }}>
           Cerrar sesión
