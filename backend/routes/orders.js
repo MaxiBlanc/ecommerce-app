@@ -59,10 +59,12 @@ router.post('/', authenticate, async (req, res) => {
 
     // Crear pedido
     const newOrder = {
-      products, // [{ productId, talla, quantity, name, price }]
+      products,
       totalAmount,
       customerId,
       customerName: clientDoc.data().name,
+      customerEmail: req.user.email || '',
+      customerDisplayName: req.user.displayName || '',
       status: 'pendiente',
       createdAt: new Date()
     };
@@ -70,7 +72,6 @@ router.post('/', authenticate, async (req, res) => {
     const orderRef = db.collection('orders').doc();
     batch.set(orderRef, newOrder);
 
-    // Vaciar carrito
     const cartRef = db.collection('carts').doc(customerId);
     batch.set(cartRef, { products: [] });
 
@@ -142,6 +143,25 @@ router.get('/by-client/:clientId', authenticate, async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error al obtener pedidos por cliente' });
+  }
+});
+
+// Listar pedidos por email (sin token)
+router.get('/by-email/:email', async (req, res) => {
+  try {
+    const { email } = req.params;
+
+    const ordersSnapshot = await db.collection('orders')
+      .where('customerEmail', '==', email)
+      .orderBy('createdAt', 'desc')
+      .get();
+
+    const orders = ordersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    res.json(orders);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al obtener pedidos por email' });
   }
 });
 

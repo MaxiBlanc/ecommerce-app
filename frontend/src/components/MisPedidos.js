@@ -1,44 +1,62 @@
 // src/components/MisPedidos.js
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { auth } from '../firebase/firebaseconfig';
 
 export default function MisPedidos() {
   const [pedidos, setPedidos] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      alert('No se encontró el token. Iniciá sesión primero.');
-      return;
-    }
+    const fetchPedidos = async () => {
+      const user = auth.currentUser;
 
-    axios.get('https://ecommerce-app-0bh1.onrender.com/orders', {
-      headers: {
-        Authorization: `Bearer ${token}`
+      if (!user || !user.email) {
+        alert('No se encontró el usuario o email. Iniciá sesión primero.');
+        return;
       }
-    })
-    .then(res => setPedidos(res.data))
-    .catch(err => {
-      console.error(err);
-      alert('Error cargando pedidos');
-    });
+
+      try {
+        const res = await axios.get(
+          `https://ecommerce-app-0bh1.onrender.com/orders/by-email/${encodeURIComponent(user.email)}`
+        );
+        setPedidos(res.data);
+      } catch (err) {
+        console.error(err);
+        alert('Error cargando pedidos');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPedidos();
   }, []);
 
   return (
     <div style={{ maxWidth: 800, margin: 'auto', padding: 20 }}>
       <h2>📦 Mis pedidos</h2>
-      {pedidos.length === 0 ? (
+      {loading ? (
+        <p>Cargando...</p>
+      ) : pedidos.length === 0 ? (
         <p>No hay pedidos aún.</p>
       ) : (
-        pedidos.map(p => (
-          <div key={p.id} style={{ border: '1px solid #ccc', marginBottom: 20, padding: 10 }}>
-            <p><strong>Fecha:</strong> {new Date(p.createdAt).toLocaleDateString()}</p>
-            <p><strong>Total:</strong> ${p.amount}</p>
+        pedidos.map((p) => (
+          <div
+            key={p.id}
+            style={{
+              border: '1px solid #ccc',
+              marginBottom: 20,
+              padding: 10,
+              borderRadius: 8,
+            }}
+          >
+            <p><strong>Fecha:</strong> {new Date(p.createdAt.seconds * 1000).toLocaleDateString()}</p>
+            <p><strong>Total:</strong> ${p.totalAmount}</p>
             <p><strong>Estado:</strong> {p.status}</p>
             <ul>
               {p.products.map((prod, i) => (
                 <li key={i}>
-                  {prod.title} - Cant: {prod.quantity} - ${prod.unit_price}
+                  {prod.name} - Talle: {prod.talla} - Cant: {prod.quantity} - ${prod.price}
                 </li>
               ))}
             </ul>
