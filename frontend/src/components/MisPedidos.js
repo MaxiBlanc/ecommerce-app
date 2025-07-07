@@ -12,7 +12,7 @@ export default function MisPedidos() {
       const user = auth.currentUser;
 
       if (!user || !user.email) {
-        alert('No se encontró el usuario o email. Iniciá sesión primero.');
+        alert('Iniciá sesión primero.');
         return;
       }
 
@@ -50,13 +50,13 @@ export default function MisPedidos() {
               borderRadius: 8,
             }}
           >
-            <p><strong>Fecha:</strong> {new Date(p.createdAt.seconds * 1000).toLocaleDateString()}</p>
-            <p><strong>Total:</strong> ${p.totalAmount}</p>
+            <p><strong>Fecha:</strong> {p.createdAt}</p>
+            <p><strong>Total:</strong> ${p.amount}</p>
             <p><strong>Estado:</strong> {p.status}</p>
             <ul>
               {p.products.map((prod, i) => (
                 <li key={i}>
-                  {prod.name} - Talle: {prod.talla} - Cant: {prod.quantity} - ${prod.price}
+                  {prod.title} - Cant: {prod.quantity} - ${prod.unit_price}
                 </li>
               ))}
             </ul>
