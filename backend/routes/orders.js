@@ -92,7 +92,6 @@ router.get('/by-email/:email', async (req, res) => {
     const ordersSnapshot = await db.collection('orders')
       .where('customerEmail', '==', email)
       //.orderBy('createdAt', 'desc')
-      .sort((a, b) => b.createdAt - a.createdAt)
       .get();
 
     const orders = ordersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
