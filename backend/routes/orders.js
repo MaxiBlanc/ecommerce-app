@@ -7,7 +7,7 @@ const authenticate = require('../middleware/authenticate');
 router.post('/', authenticate, async (req, res) => {
   try {
     const { products, totalAmount } = req.body;
-    const customerId = req.user.uid; // viene del token verificado
+    const customerId = req.user.uid;
 
     if (!products || !Array.isArray(products) || products.length === 0) {
       return res.status(400).json({ message: 'El pedido debe tener productos' });
@@ -26,10 +26,14 @@ router.post('/', authenticate, async (req, res) => {
       return res.status(400).json({ message: 'Cliente no encontrado' });
     }
 
-    // Validar stock y preparar actualizaciones
+    // Validar stock por talla y preparar batch
     const batch = db.batch();
 
     for (const item of products) {
+      if (!item.productId || !item.talla || !item.quantity) {
+        return res.status(400).json({ message: 'Faltan datos del producto (productId, talla o quantity)' });
+      }
+
       const productRef = db.collection('products').doc(item.productId);
       const productDoc = await productRef.get();
 
@@ -38,21 +42,27 @@ router.post('/', authenticate, async (req, res) => {
       }
 
       const productData = productDoc.data();
-      if (item.quantity > productData.stock) {
-        return res.status(400).json({ message: `Stock insuficiente para ${productData.name}` });
+      const tallaIndex = productData.sizes.findIndex(s => s.talla === item.talla);
+
+      if (tallaIndex === -1) {
+        return res.status(400).json({ message: `Talla ${item.talla} no encontrada para el producto ${productData.name}` });
+      }
+
+      if (item.quantity > productData.sizes[tallaIndex].stock) {
+        return res.status(400).json({ message: `Stock insuficiente para ${productData.name} - Talla ${item.talla}` });
       }
 
       // Restar stock
-      const newStock = productData.stock - item.quantity;
-      batch.update(productRef, { stock: newStock });
+      productData.sizes[tallaIndex].stock -= item.quantity;
+      batch.update(productRef, { sizes: productData.sizes });
     }
 
     // Crear pedido
     const newOrder = {
-      products,
+      products, // [{ productId, talla, quantity, name, price }]
       totalAmount,
       customerId,
-      customerName: clientDoc.data().name, // guardo nombre para consultas rápidas
+      customerName: clientDoc.data().name,
       status: 'pendiente',
       createdAt: new Date()
     };
@@ -60,13 +70,14 @@ router.post('/', authenticate, async (req, res) => {
     const orderRef = db.collection('orders').doc();
     batch.set(orderRef, newOrder);
 
-    // Vaciar carrito después de crear pedido con ID del usuario
+    // Vaciar carrito
     const cartRef = db.collection('carts').doc(customerId);
     batch.set(cartRef, { products: [] });
 
     await batch.commit();
 
     res.status(201).json({ id: orderRef.id, ...newOrder });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error al crear pedido' });
@@ -111,12 +122,11 @@ router.patch('/:id/status', authenticate, async (req, res) => {
   }
 });
 
-// Listar pedidos por cliente (protegida y validando usuario)
+// Listar pedidos por cliente (protegida)
 router.get('/by-client/:clientId', authenticate, async (req, res) => {
   try {
     const { clientId } = req.params;
 
-    // Validar que el usuario solo consulte sus pedidos
     if (clientId !== req.user.uid) {
       return res.status(403).json({ message: 'No autorizado para ver estos pedidos' });
     }

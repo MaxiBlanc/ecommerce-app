@@ -20,7 +20,7 @@ router.post('/create_preference', async (req, res) => {
     const preference = {
       items,
       back_urls: {
-        success: "https://ecommerce-app-f.netlify.app/success",
+        success: "https://ecommerce-app-f.netlify.app/mis-pedidos",
         failure: "https://ecommerce-app-f.netlify.app/failure",
         pending: "https://ecommerce-app-f.netlify.app/pending"
       },

@@ -12,6 +12,7 @@ import Success from './pages/success';
 import Failure from './pages/Failure';
 import Pending from './pages/Pending';
 import ProductDetail from './components/ProductDetail';
+import MisPedidos from './components/MisPedidos';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/logout" element={<LogoutButton />} />
+          <Route path="/mis-pedidos" element={<MisPedidos />} />
           <Route path="/Product" element={<ProductAdmin />} />
           <Route path="/producto/:id" element={<ProductDetail />} />
           <Route path="/carrito" element={<Cart />} />
