@@ -19,7 +19,7 @@ export default function Cart() {
     }
 
     const items = carrito.map(product => ({
-      title: `${product.name} - Talle: ${product.size?.talla || 'N/A'}`,
+      title: `${product.name}`,
       unit_price: Number(product.price),
       quantity: Number(product.cantidad),
       currency_id: 'ARS',
