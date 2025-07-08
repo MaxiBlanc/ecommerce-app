@@ -27,8 +27,10 @@ router.post('/create_preference', async (req, res) => {
       auto_return: "approved",
       notification_url: "https://ecommerce-app-0bh1.onrender.com/mercadopago/webhook", // 🔔 Asegurate que esta URL sea pública
       metadata: {
-        items
-      }
+    items,
+    customerEmail,
+    customerName
+  }
     };
 
     const response = await mercadopago.preferences.create(preference);
@@ -57,6 +59,8 @@ router.post('/webhook', async (req, res) => {
 
       const newOrder = {
         buyer: payment.body.payer.email,
+        customerEmail: metadata.customerEmail,
+        customerName: metadata.customerName,
         products: metadata.items || [],
         amount: payment.body.transaction_amount,
         status: 'approved',
