@@ -50,7 +50,15 @@ export default function MisPedidos() {
               borderRadius: 8,
             }}
           >
-            <p><strong>Fecha:</strong> {p.createdAt}</p>
+            <p><strong>Fecha:</strong> {
+  p.createdAt?._seconds
+    ? new Date(p.createdAt._seconds * 1000).toLocaleDateString('es-AR', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      })
+    : 'Fecha no disponible'
+}</p>
             <p><strong>Total:</strong> ${p.amount}</p>
             <p><strong>Estado:</strong> {p.status}</p>
             <ul>
