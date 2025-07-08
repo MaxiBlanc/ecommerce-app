@@ -12,7 +12,7 @@ mercadopago.configure({
 router.post('/create_preference', async (req, res) => {
   try {
     const { items , customerEmail, customerName } = req.body;
-
+    console.log('✅ Webhook recibido', JSON.stringify(req.body));
     if (!items || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ message: 'items es requerido y debe ser un array con al menos un producto' });
     }
