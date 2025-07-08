@@ -11,7 +11,7 @@ mercadopago.configure({
 // Crear preferencia de pago
 router.post('/create_preference', async (req, res) => {
   try {
-    const { items } = req.body;
+    const { items , customerEmail, customerName } = req.body;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ message: 'items es requerido y debe ser un array con al menos un producto' });
