@@ -48,27 +48,34 @@ router.post('/create_preference', async (req, res) => {
 // Webhook que guarda orden si el pago es aprobado
 router.post('/webhook', async (req, res) => {
   try {
+    console.log('✅ Webhook recibido:', JSON.stringify(req.body));
+
+    const topic = req.query.topic || req.query.type;
     const paymentId = req.body.data?.id;
 
-    if (!paymentId) return res.status(400).send('Falta payment ID');
+    if (topic === 'payment' && paymentId) {
+      const payment = await mercadopago.payment.findById(paymentId);
+      console.log('🔍 Payment encontrado:', payment.body);
 
-    const payment = await mercadopago.payment.findById(paymentId);
+      if (payment.body.status === 'approved') {
+        const metadata = payment.body.metadata || {};
 
-    if (payment.body.status === 'approved') {
-      const metadata = payment.body.metadata;
+        const newOrder = {
+          buyer: payment.body.payer?.email || '',
+          customerEmail: metadata.customerEmail || '',
+          customerName: metadata.customerName || '',
+          products: metadata.items || [],
+          amount: payment.body.transaction_amount,
+          status: 'approved',
+          createdAt: new Date()
+        };
 
-      const newOrder = {
-        buyer: payment.body.payer.email,
-        customerEmail: metadata.customerEmail,
-        customerName: metadata.customerName,
-        products: metadata.items || [],
-        amount: payment.body.transaction_amount,
-        status: 'approved',
-        createdAt: new Date()
-      };
-
-      await db.collection('orders').add(newOrder);
-      console.log('✅ Orden guardada en Firestore');
+        await db.collection('orders').add(newOrder);
+        console.log('✅ Orden guardada en Firestore:', newOrder);
+      }
+    } else {
+      // 🛑 Si no viene el paymentId, mostrar log igual
+      console.log('❌ Webhook sin paymentId válido:', req.body);
     }
 
     res.sendStatus(200);
@@ -77,5 +84,6 @@ router.post('/webhook', async (req, res) => {
     res.sendStatus(500);
   }
 });
+
 
 module.exports = router;
