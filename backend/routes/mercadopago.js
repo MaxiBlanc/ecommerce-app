@@ -58,8 +58,9 @@ router.post('/webhook', async (req, res) => {
       console.log('🔍 Payment encontrado:', payment.body);
 
       if (payment.body.status === 'approved') {
-        const metadata = payment.body.metadata || {};
-        console.log('✅ mail y nombre:', payment.body.metadata.customerEmail, payment.body.metadata.customerName);
+const metadata = JSON.parse(payment.body.metadata || '{}');
+
+console.log('✅ mail y nombre:', metadata.customerEmail, metadata.customerName);
         const newOrder = {
           buyer: payment.body.payer?.email || '',
           customerEmail: metadata.customerEmail || '',
