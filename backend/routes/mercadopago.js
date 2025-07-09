@@ -62,8 +62,8 @@ router.post('/webhook', async (req, res) => {
 
         const newOrder = {
           buyer: payment.body.payer?.email || '',
-          customerEmail: metadata.customerEmail || '',
-          customerName: metadata.customerName || '',
+          customerEmail: payment.body.metadata.customerEmail || '',
+          customerName: payment.body.metadata.customerName || '',
           products: metadata.items || [],
           amount: payment.body.transaction_amount,
           status: 'approved',
