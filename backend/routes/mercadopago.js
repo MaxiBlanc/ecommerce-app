@@ -58,13 +58,12 @@ router.post('/webhook', async (req, res) => {
       console.log('🔍 Payment encontrado:', payment.body);
 
       if (payment.body.status === 'approved') {
-const metadata = JSON.parse(payment.body.metadata || '{}');
-
-console.log('✅ mail y nombre:', metadata.customerEmail, metadata.customerName);
+        const metadata = payment.body.metadata || {};
+        console.log('✅ mail y nombre:', payment.body.metadata.customerEmail, payment.body.metadata.customerName);
         const newOrder = {
           buyer: payment.body.payer?.email || '',
-          customerEmail: metadata.customerEmail || '',
-          customerName: metadata.customerName || '',
+          customerEmail: metadata.customer_email || '',
+          customerName: metadata.customer_name || '',
           products: metadata.items || [],
           amount: payment.body.transaction_amount,
           status: 'approved',
