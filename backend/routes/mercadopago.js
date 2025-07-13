@@ -61,8 +61,8 @@ router.post('/webhook', async (req, res) => {
       if (payment.body.status === 'approved') {
         const metadata = payment.body.metadata || {};
 
-        const customerEmail = metadata.customerEmail || '';
-        const customerName = metadata.customerName || '';
+        const customerEmail = metadata.customer_email || '';
+        const customerName = metadata.customer_name || '';
         const products = metadata.items || [];
 
         console.log('📩 Datos de cliente:', customerEmail, customerName);
