@@ -106,6 +106,11 @@ router.post('/webhook', async (req, res) => {
 
           if (productSnap.exists) {
             const productData = productSnap.data();
+            console.log('🔎 Comprobando talla:', {
+  talleDeProducto: size.talla,
+  talleComprado: item.talla,
+  iguales: size.talla === item.talla
+});
 
             const updatedSizes = productData.sizes.map(size => {
               if (size.talla === item.talla) {
