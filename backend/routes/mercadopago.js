@@ -93,6 +93,15 @@ router.post('/webhook', async (req, res) => {
         console.log('✅ Orden guardada en Firestore:', newOrder);
 
         // 🔄 Actualizar stock de cada producto y talla
+        console.log('🧾 Datos del producto recibido para actualizar stock:');
+newOrder.products.forEach((item, i) => {
+  console.log(`🟡 Producto #${i + 1}:`, {
+    productId: item.productId,
+    talla: item.talla,
+    quantity: item.quantity
+  });
+});
+
         for (const item of products) {
           console.log("📦 Procesando producto:", item);
 
