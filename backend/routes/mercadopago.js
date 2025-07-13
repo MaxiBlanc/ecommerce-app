@@ -72,6 +72,29 @@ router.post('/webhook', async (req, res) => {
 
         await db.collection('orders').add(newOrder);
         console.log('✅ Orden guardada en Firestore:', newOrder);
+
+        for (const item of newOrder.products) {
+  const productRef = db.collection('products').doc(item.productId);
+  
+  
+  const productSnap = await productRef.get();
+
+  if (productSnap.exists) {
+    const productData = productSnap.data();
+    const updatedSizes = productData.sizes.map(size => {
+      if (size.talla === item.talla) {
+        return {
+          ...size,
+          stock: Math.max(0, size.stock - item.quantity)
+        };
+      }
+      return size;
+    });
+
+    await productRef.update({ sizes: updatedSizes });
+    console.log(`🔄 Stock actualizado para ${item.name}, talla ${item.talla}`);
+  }
+}
       }
     } else {
       // 🛑 Si no viene el paymentId, mostrar log igual
