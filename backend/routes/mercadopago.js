@@ -111,7 +111,7 @@ router.post('/webhook', async (req, res) => {
               if (size.talla === item.talla) {
                 return {
                   ...size,
-                  stock: Math.max(0, size.stock - item.quantity)
+                  stock: size.stock - item.quantity
                 };
               }
               return size;
