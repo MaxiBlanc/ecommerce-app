@@ -11,8 +11,9 @@ mercadopago.configure({
 // Crear preferencia de pago
 router.post('/create_preference', async (req, res) => {
   try {
-    const { items , customerEmail, customerName } = req.body;
-    console.log('✅ Webhook recibido', JSON.stringify(req.body));
+    const { items, customerEmail, customerName } = req.body;
+    console.log('✅ Preferencia recibida:', JSON.stringify(req.body));
+
     if (!items || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ message: 'items es requerido y debe ser un array con al menos un producto' });
     }
@@ -25,18 +26,18 @@ router.post('/create_preference', async (req, res) => {
         pending: "https://ecommerce-app-f.netlify.app/pending"
       },
       auto_return: "approved",
-      notification_url: "https://ecommerce-app-0bh1.onrender.com/mercadopago/webhook", // 🔔 Asegurate que esta URL sea pública
+      notification_url: "https://ecommerce-app-0bh1.onrender.com/mercadopago/webhook",
       metadata: {
-    items,
-    customerEmail,
-    customerName
-  }
+        items,
+        customerEmail,
+        customerName
+      }
     };
 
     const response = await mercadopago.preferences.create(preference);
     res.json({ init_point: response.body.init_point });
   } catch (error) {
-    console.error("Error creando preferencia:", error);
+    console.error("❌ Error creando preferencia:", error);
     res.status(500).json({
       message: 'Error creando preferencia de pago',
       error: error.message,
@@ -45,7 +46,7 @@ router.post('/create_preference', async (req, res) => {
   }
 });
 
-// Webhook que guarda orden si el pago es aprobado
+// Webhook para recibir notificaciones de pago
 router.post('/webhook', async (req, res) => {
   try {
     console.log('✅ Webhook recibido:', JSON.stringify(req.body));
@@ -59,12 +60,30 @@ router.post('/webhook', async (req, res) => {
 
       if (payment.body.status === 'approved') {
         const metadata = payment.body.metadata || {};
-        console.log('✅ mail y nombre:', payment.body.metadata.customerEmail, payment.body.metadata.customerName);
+
+        const customerEmail = metadata.customerEmail || '';
+        const customerName = metadata.customerName || '';
+        const products = metadata.items || [];
+
+        console.log('📩 Datos de cliente:', customerEmail, customerName);
+
+        // Verificar si la orden ya existe
+        const existingOrders = await db.collection('orders')
+          .where('paymentId', '==', paymentId)
+          .get();
+
+        if (!existingOrders.empty) {
+          console.log('⚠️ Orden ya existente, no se duplica');
+          return res.sendStatus(200);
+        }
+
+        // Crear nueva orden
         const newOrder = {
+          paymentId,
           buyer: payment.body.payer?.email || '',
-          customerEmail: metadata.customer_email || '',
-          customerName: metadata.customer_name || '',
-          products: metadata.items || [],
+          customerEmail,
+          customerName,
+          products,
           amount: payment.body.transaction_amount,
           status: 'approved',
           createdAt: new Date()
@@ -73,31 +92,39 @@ router.post('/webhook', async (req, res) => {
         await db.collection('orders').add(newOrder);
         console.log('✅ Orden guardada en Firestore:', newOrder);
 
-        for (const item of newOrder.products) {
-  const productRef = db.collection('products').doc(item.productId);
-  
-  
-  const productSnap = await productRef.get();
+        // 🔄 Actualizar stock de cada producto y talla
+        for (const item of products) {
+          console.log("📦 Procesando producto:", item);
 
-  if (productSnap.exists) {
-    const productData = productSnap.data();
-    const updatedSizes = productData.sizes.map(size => {
-      if (size.talla === item.talla) {
-        return {
-          ...size,
-          stock: Math.max(0, size.stock - item.quantity)
-        };
-      }
-      return size;
-    });
+          if (!item.productId || !item.talla || !item.quantity) {
+            console.log("❌ Faltan datos para actualizar stock");
+            continue;
+          }
 
-    await productRef.update({ sizes: updatedSizes });
-    console.log(`🔄 Stock actualizado para ${item.name}, talla ${item.talla}`);
-  }
-}
+          const productRef = db.collection('products').doc(item.productId);
+          const productSnap = await productRef.get();
+
+          if (productSnap.exists) {
+            const productData = productSnap.data();
+
+            const updatedSizes = productData.sizes.map(size => {
+              if (size.talla === item.talla) {
+                return {
+                  ...size,
+                  stock: Math.max(0, size.stock - item.quantity)
+                };
+              }
+              return size;
+            });
+
+            await productRef.update({ sizes: updatedSizes });
+            console.log(`🔄 Stock actualizado para ${item.name}, talla ${item.talla}`);
+          } else {
+            console.log(`❌ Producto no encontrado: ${item.productId}`);
+          }
+        }
       }
     } else {
-      // 🛑 Si no viene el paymentId, mostrar log igual
       console.log('❌ Webhook sin paymentId válido:', req.body);
     }
 
@@ -107,6 +134,5 @@ router.post('/webhook', async (req, res) => {
     res.sendStatus(500);
   }
 });
-
 
 module.exports = router;
