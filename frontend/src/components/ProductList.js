@@ -7,10 +7,34 @@ export default function ProductList() {
   const [orden, setOrden] = useState('');
   const [tipoFiltro, setTipoFiltro] = useState('');
   const [imageIndices, setImageIndices] = useState({});
+  const [tipos, setTipos] = useState([]);
+
 
   useEffect(() => {
     fetchProductos();
   }, []);
+  useEffect(() => {
+  const obtenerTipos = async () => {
+    try {
+      const res = await getDocs(collection(db, 'products'));
+      const tiposSet = new Set();
+
+      res.forEach(doc => {
+        const data = doc.data();
+        if (data.type) {
+          tiposSet.add(data.type);
+        }
+      });
+
+      setTipos([...tiposSet]);
+    } catch (error) {
+      console.error('Error obteniendo tipos:', error);
+    }
+  };
+
+  obtenerTipos();
+}, []);
+
 
   const fetchProductos = async () => {
     try {
@@ -60,11 +84,12 @@ export default function ProductList() {
         </select>
 
         <select onChange={e => setTipoFiltro(e.target.value)} defaultValue="">
-          <option value="">Filtrar por tipo...</option>
-          <option value="alimento">Alimento</option>
-          <option value="bebida">Bebida</option>
-          <option value="electro">Electro</option>
-        </select>
+  <option value="">Filtrar por tipo...</option>
+  {tipos.map(tipo => (
+    <option key={tipo} value={tipo}>{tipo}</option>
+  ))}
+</select>
+
       </div>
 
       {productosAMostrar.length === 0 ? (

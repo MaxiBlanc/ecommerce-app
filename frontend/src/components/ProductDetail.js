@@ -60,7 +60,7 @@ export default function ProductDetail() {
 
       <h4>Tallas disponibles</h4>
       <select value={tallaSeleccionada} onChange={e => setTallaSeleccionada(e.target.value)}>
-        <option value="">Seleccioná una talla</option>
+        <option value="">Selecciona una talla</option>
         {producto.sizes.map(s => (
           <option key={s.talla} value={s.talla} disabled={s.stock < 1}>
             {s.talla} - {s.stock > 0 ? `Stock: ${s.stock}` : 'Sin stock'}
