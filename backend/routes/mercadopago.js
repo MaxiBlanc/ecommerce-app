@@ -90,7 +90,7 @@ router.post('/webhook', async (req, res) => {
           buyer: payment.body.payer?.email || '',
           customerEmail,
           customerName,
-          products: products,
+          products,
           amount: payment.body.transaction_amount,
           status: 'approved',
           createdAt: new Date()
