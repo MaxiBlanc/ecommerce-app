@@ -2,6 +2,7 @@ import { auth, onAuthStateChanged  } from '../firebase/firebaseconfig';
 import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { signOut } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function RegisterForm() {
@@ -10,6 +11,7 @@ export default function RegisterForm() {
   const [name, setName] = useState('');
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+const navigate = useNavigate();
 
 
 
@@ -44,6 +46,8 @@ useEffect(() => {
       setEmail('');
       setPassword('');
       setName('');
+      navigate('/');
+
     } catch (err) {
       setError(err.message);
     }

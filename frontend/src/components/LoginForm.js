@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { auth, onAuthStateChanged  } from '../firebase/firebaseconfig';
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+const navigate = useNavigate();
 
 
 useEffect(() => {
@@ -40,6 +43,7 @@ useEffect(() => {
       setSuccess(`Bienvenido, ${user.displayName || user.email}`);
       setEmail('');
       setPassword('');
+navigate('/');
 
       // Redireccionar si querés
       // window.location.href = '/mis-pedidos';
