@@ -13,6 +13,7 @@ import Failure from './pages/Failure';
 import Pending from './pages/Pending';
 import ProductDetail from './components/ProductDetail';
 import MisPedidos from './components/MisPedidos';
+import TodosLosPedidos from './components/TodosLosPedidos';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route path="/Info" element={<UserInfo />} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/login" element={<LoginForm />} />
+          <Route path="/admin/pedidos" element={<TodosLosPedidos />} />
           <Route path="/logout" element={<LogoutButton />} />
           <Route path="/mis-pedidos" element={<MisPedidos />} />
           <Route path="/Product" element={<ProductAdmin />} />
