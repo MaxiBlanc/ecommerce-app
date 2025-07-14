@@ -55,7 +55,7 @@ export default function TodosLosPedidos() {
 
       <div style={{ display: 'flex', gap: 20, marginBottom: 20 }}>
         <select value={filtroStatus} onChange={e => setFiltroStatus(e.target.value)}>
-          <option value="">Filtrar por estado</option>
+          <option value="">Todos</option>
           <option value="approved">Aprobado</option>
           <option value="dispatched">Despachado</option>
           <option value="successfully delivered">Entregado</option>
@@ -79,7 +79,7 @@ export default function TodosLosPedidos() {
             marginBottom: 20
           }}
         >
-          <p><strong>ID:</strong> {p.id}</p>
+          <p><strong>nro de Order:</strong> {p.id}</p>
           <p><strong>Cliente:</strong> {p.customerName} ({p.customerEmail})</p>
           <p><strong>Fecha:</strong> {
             p.createdAt?._seconds
@@ -89,14 +89,23 @@ export default function TodosLosPedidos() {
           <p><strong>Total:</strong> ${p.amount}</p>
           <p>
             <strong>Estado:</strong>{' '}
-            <select
-              value={p.status}
-              onChange={e => actualizarEstado(p.id, e.target.value)}
-            >
-              <option value="approved">Aprobado</option>
-              <option value="dispatched">Despachado</option>
-              <option value="successfully delivered">Entregado</option>
-            </select>
+            <div style={{ display: 'flex', gap: '10px' }}>
+  {['approved', 'dispatched', 'successfully delivered'].map((estado) => (
+    <label key={estado} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+      <input
+        type="radio"
+        name={`estado-${p.id}`}
+        value={estado}
+        checked={p.status === estado}
+        onChange={() => actualizarEstado(p.id, estado)}
+      />
+      {estado === 'approved' && 'Aprobado'}
+      {estado === 'dispatched' && 'Despachado'}
+      {estado === 'successfully delivered' && 'Entregado'}
+    </label>
+  ))}
+</div>
+
           </p>
           <ul>
             {p.products.map((prod, i) => (
