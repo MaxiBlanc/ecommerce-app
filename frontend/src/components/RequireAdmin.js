@@ -3,7 +3,7 @@ import { auth } from '../firebase/firebaseconfig';
 import { onAuthStateChanged } from 'firebase/auth';
 import { Navigate } from 'react-router-dom';
 
-const adminEmail = "maxiblanc2408101@gmail.com";
+const adminEmail = "maxiblanc240801@gmail.com";
 
 export default function RequireAdmin({ children }) {
   const [user, setUser] = useState(undefined);
