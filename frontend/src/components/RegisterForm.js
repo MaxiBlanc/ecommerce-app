@@ -13,12 +13,17 @@ export default function RegisterForm() {
   const [success, setSuccess] = useState(null);
 
 
-  useEffect(() => {
-  if (auth.currentUser) {
-    signOut(auth).catch((err) => {
-      console.error('Error cerrando sesión:', err);
-    });
-  }
+
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    if (user) {
+      signOut(auth)
+        .then(() => console.log('Sesión cerrada'))
+        .catch((err) => console.error('Error cerrando sesión:', err));
+    }
+  });
+
+  return () => unsubscribe(); // Limpia el listener al desmontar
 }, []);
 
   const handleSubmit = async (e) => {

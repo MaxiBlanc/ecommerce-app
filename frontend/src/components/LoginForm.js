@@ -8,13 +8,17 @@ export default function LoginForm() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  useEffect(() => {
-  if (auth.currentUser) {
-    console.log('Usuario actual:', auth.currentUser);
-    signOut(auth).catch((err) => {
-      console.error('Error cerrando sesión:', err);
-    });
-  }
+
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    if (user) {
+      signOut(auth)
+        .then(() => console.log('Sesión cerrada'))
+        .catch((err) => console.error('Error cerrando sesión:', err));
+    }
+  });
+
+  return () => unsubscribe(); // Limpia el listener al desmontar
 }, []);
 
   const handleLogin = async (e) => {
