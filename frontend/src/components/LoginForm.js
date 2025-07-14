@@ -15,14 +15,13 @@ const navigate = useNavigate();
 useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, (user) => {
     if (user) {
-      signOut(auth)
-        .then(() => console.log('Sesión cerrada'))
-        .catch((err) => console.error('Error cerrando sesión:', err));
+      console.log('Usuario ya autenticado, redirigiendo...');
+      navigate('/');
     }
   });
 
-  return () => unsubscribe(); // Limpia el listener al desmontar
-}, []);
+  return () => unsubscribe();
+}, [navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
