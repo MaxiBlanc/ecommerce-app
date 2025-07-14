@@ -1,7 +1,6 @@
 import { auth, onAuthStateChanged  } from '../firebase/firebaseconfig';
 import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from 'firebase/auth';
 import { useEffect, useState } from 'react';
-import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
 
