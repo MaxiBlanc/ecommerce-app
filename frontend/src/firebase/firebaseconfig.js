@@ -14,7 +14,8 @@ const firebaseConfig = {
 
 // Inicializa la app Firebase con la config
 const app = initializeApp(firebaseConfig);
-
+const db = getFirestore(app);
+export { db };
 // Exporta la autenticación para usar en tu app
 export const auth = getAuth(app);
 
