@@ -23,9 +23,10 @@ export default function Cart() {
       unit_price: Number(product.price),
       quantity: Number(product.cantidad),
       currency_id: 'ARS',
-      productId: product.id,
+      productId: product.product_id,
       talla: product.size?.talla || 'N/A',
       name: product.name,
+
       price: product.price
     }));
 
