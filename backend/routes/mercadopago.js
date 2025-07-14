@@ -115,12 +115,7 @@ newOrder.products.forEach((item, i) => {
 
           if (productSnap.exists) {
             const productData = productSnap.data();
-            console.log('🔎 Comprobando talla:', {
-  talleDeProducto: sizes.talla,
-  talleComprado: item.talla,
-  iguales: sizes.talla === item.talla
-});
-
+            
             const updatedSizes = productData.sizes.map(size => {
               if (size.talla === item.talla) {
                 return {
@@ -128,6 +123,11 @@ newOrder.products.forEach((item, i) => {
                   stock: size.stock - item.quantity
                 };
               }
+              console.log('🔎 Comprobando talla:', {
+    talleDeProducto: size.talla,
+    talleComprado: item.talla,
+    iguales: size.talla === item.talla
+  });
               return size;
             });
 
