@@ -40,6 +40,8 @@ export default function Cart() {
         'https://ecommerce-app-0bh1.onrender.com/mercadopago/create_preference',
         payload
       );
+      localStorage.removeItem('carrito');
+    setCarrito([]); // Limpia el estado local también
       window.location.href = res.data.init_point;
     } catch (error) {
       console.error('Error en checkout:', error);
