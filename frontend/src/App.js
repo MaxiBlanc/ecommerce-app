@@ -1,21 +1,27 @@
+// src/App.js
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ProductList from './components/ProductList';
 import RegisterForm from './components/RegisterForm';
 import LoginForm from './components/LoginForm';
-import TodosLosPedidos from './components/TodosLosPedidos';
-import ProductDetail from './components/ProductDetail';
-import Cart from './components/Cart';
 import UserInfo from './components/UserInfo';
-import MisPedidos from './components/MisPedidos';
+import Navbar from './components/Navbar';
+import ProductList from './components/ProductList';
 import ProductAdmin from './components/ProductAdmin';
+import Cart from './components/Cart';
+import ProductDetail from './components/ProductDetail';
+import MisPedidos from './components/MisPedidos';
+import TodosLosPedidos from './components/TodosLosPedidos';
 import RequireAuth from './components/RequireAuth';
 import RequireAdmin from './components/RequireAdmin';
+
 
 function App() {
   return (
     <Router>
-      <Routes>
-        {/* TODOS */}
+      <div style={{ padding: '20px' }}>
+        <h1>Mi App</h1>
+        <Navbar />
+        <Routes>
+          {/* TODOS */}
         <Route path="/" element={<ProductList />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/login" element={<LoginForm />} />
@@ -37,9 +43,11 @@ function App() {
         <Route path="/Product" element={
           <RequireAdmin><ProductAdmin /></RequireAdmin>
         } />
-      </Routes>
+        </Routes>
+      </div>
     </Router>
   );
 }
+
 
 export default App;
