@@ -54,7 +54,7 @@ export default function Cart() {
     const carritoActualizado = await Promise.all(
       datos.map(async (item) => {
         try {
-          const res = await fetch(`https://firestore.googleapis.com/v1/projects/TU_PROYECTO/databases/(default)/documents/products/${item.id}`);
+          const res = await fetch(`https://firestore.googleapis.com/v1/projects/ecommerce-app-3f900/databases/(default)/documents/products/${item.id}`);
           const data = await res.json();
 
           const sizes = data.fields?.sizes?.arrayValue?.values || [];
