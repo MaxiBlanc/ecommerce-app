@@ -110,7 +110,7 @@ newOrder.products.forEach((item, i) => {
             continue;
           }
 
-          const productRef = db.collection('products').doc(item.productId);
+          const productRef = db.collection('products').doc(item.product_id);
           const productSnap = await productRef.get();
 
           if (productSnap.exists) {
