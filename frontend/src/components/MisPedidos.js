@@ -20,7 +20,13 @@ export default function MisPedidos() {
         const res = await axios.get(
           `https://ecommerce-app-0bh1.onrender.com/orders/by-email/${encodeURIComponent(user.email)}`
         );
-        setPedidos(res.data);
+        const ordenados = res.data.sort((a, b) => {
+    const fechaA = a.createdAt?._seconds || 0;
+    const fechaB = b.createdAt?._seconds || 0;
+    return fechaB - fechaA;
+  });
+
+  setPedidos(ordenados);
       } catch (err) {
         console.error(err);
         alert('Error cargando pedidos');
