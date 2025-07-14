@@ -26,7 +26,6 @@ export default function Cart() {
       productId: product.id,
       talla: product.size?.talla || 'N/A',
       name: product.name,
-
       price: product.price
     }));
 
@@ -54,7 +53,8 @@ export default function Cart() {
   }, []);
 
   const actualizarCantidad = (id, talla, nuevaCantidad) => {
-    if (nuevaCantidad < 1 || isNaN(nuevaCantidad)) return;
+    const producto = carrito.find(p => p.id === id && p.size?.talla === talla);
+if (!producto || isNaN(nuevaCantidad) || nuevaCantidad < 1 || nuevaCantidad > producto.size?.stock) return;
     const actualizado = carrito.map(item =>
       item.id === id && item.size?.talla === talla
         ? { ...item, cantidad: nuevaCantidad }
@@ -99,12 +99,19 @@ export default function Cart() {
                 <p>
                   Cantidad:
                   <input
-                    type="number"
-                    value={item.cantidad}
-                    min={1}
-                    style={{ width: 60, marginLeft: 5 }}
-                    onChange={e => actualizarCantidad(item.id, item.size?.talla, parseInt(e.target.value))}
-                  />
+  type="number"
+  value={item.cantidad}
+  min={1}
+  max={item.size?.stock || 1}
+  style={{ width: 60, marginLeft: 5 }}
+  onChange={e => {
+    const value = parseInt(e.target.value);
+    if (!isNaN(value) && value <= (item.size?.stock || 1)) {
+      actualizarCantidad(item.id, item.size?.talla, value);
+    }
+  }}
+/>
+
                 </p>
                 <button
                   onClick={() => eliminarProducto(item.id, item.size?.talla)}
