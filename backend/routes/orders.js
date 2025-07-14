@@ -123,4 +123,23 @@ router.patch('/:id/status', async (req, res) => {
   }
 });
 
+// En server.js o routes/orders.js
+const { getFirestore } = require('firebase-admin/firestore');
+const db = getFirestore();
+
+app.put('/orders/update-status/:id', async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+    const orderRef = db.collection('orders').doc(id);
+    await orderRef.update({ status });
+    res.status(200).json({ message: 'Estado actualizado correctamente' });
+  } catch (error) {
+    console.error('Error actualizando el estado:', error);
+    res.status(500).json({ message: 'Error actualizando el estado' });
+  }
+});
+
+
 module.exports = router;
