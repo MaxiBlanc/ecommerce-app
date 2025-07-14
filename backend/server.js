@@ -1,5 +1,4 @@
 const express = require('express');
-const cors = require('cors');
 require('dotenv').config();
 
 const { db } = require('./firebase');
@@ -7,6 +6,11 @@ const { db } = require('./firebase');
 const app = express();
 const PORT = process.env.PORT || 5000;
 const uploadRouter = require('./routes/upload');
+const cors = require('cors');
+
+app.use(cors({
+  origin: '*', // o si quieres limitarlo: 'https://ecommerce-app-f.netlify.app'
+}));
 
 app.use(express.json());
 
