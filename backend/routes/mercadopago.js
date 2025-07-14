@@ -19,20 +19,26 @@ router.post('/create_preference', async (req, res) => {
     }
 
     const preference = {
-      items,
-      back_urls: {
-        success: "https://ecommerce-app-f.netlify.app/",
-        failure: "https://ecommerce-app-f.netlify.app/failure",
-        pending: "https://ecommerce-app-f.netlify.app/pending"
-      },
-      auto_return: "approved",
-      notification_url: "https://ecommerce-app-0bh1.onrender.com/mercadopago/webhook",
-      metadata: {
-        items,
-        customerEmail,
-        customerName
-      }
-    };
+  items: items.map(({ title, unit_price, quantity, currency_id }) => ({
+    title,
+    unit_price,
+    quantity,
+    currency_id
+  })),
+  back_urls: {
+    success: "https://ecommerce-app-f.netlify.app/",
+    failure: "https://ecommerce-app-f.netlify.app/failure",
+    pending: "https://ecommerce-app-f.netlify.app/pending"
+  },
+  auto_return: "approved",
+  notification_url: "https://ecommerce-app-0bh1.onrender.com/mercadopago/webhook",
+  metadata: {
+    customItems: items, // ⬅️ Aquí sí van los items completos con talla y productId
+    customerEmail,
+    customerName
+  }
+};
+
 
     const response = await mercadopago.preferences.create(preference);
     res.json({ init_point: response.body.init_point });
@@ -63,7 +69,8 @@ router.post('/webhook', async (req, res) => {
 
         const customerEmail = metadata.customer_email || '';
         const customerName = metadata.customer_name || '';
-        const products = metadata.items || [];
+        const products = metadata.customItems || [];
+
 
         console.log('📩 Datos de cliente:', customerEmail, customerName);
 
@@ -83,7 +90,7 @@ router.post('/webhook', async (req, res) => {
           buyer: payment.body.payer?.email || '',
           customerEmail,
           customerName,
-          products,
+          products: products,
           amount: payment.body.transaction_amount,
           status: 'approved',
           createdAt: new Date()
