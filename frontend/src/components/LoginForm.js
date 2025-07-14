@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { auth } from '../firebase/firebaseconfig';
+import { auth, onAuthStateChanged  } from '../firebase/firebaseconfig';
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
 export default function LoginForm() {

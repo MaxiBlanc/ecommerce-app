@@ -1,8 +1,7 @@
-import { auth } from '../firebase/firebaseconfig';
+import { auth, onAuthStateChanged  } from '../firebase/firebaseconfig';
 import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { signOut } from 'firebase/auth';
-
 
 
 export default function RegisterForm() {
