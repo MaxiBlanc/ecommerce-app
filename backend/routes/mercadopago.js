@@ -105,7 +105,7 @@ newOrder.products.forEach((item, i) => {
         for (const item of products) {
           console.log("📦 Procesando producto:", item);
 
-          if (!item.productId || !item.talla || !item.quantity) {
+          if (!item.product_Id || !item.talla || !item.quantity) {
             console.log("❌ Faltan datos para actualizar stock");
             continue;
           }
