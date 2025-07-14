@@ -10,6 +10,7 @@ export default function LoginForm() {
 
   useEffect(() => {
   if (auth.currentUser) {
+    console.log('Usuario actual:', auth.currentUser);
     signOut(auth).catch((err) => {
       console.error('Error cerrando sesión:', err);
     });
