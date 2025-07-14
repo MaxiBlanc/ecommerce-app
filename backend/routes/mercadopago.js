@@ -96,7 +96,7 @@ router.post('/webhook', async (req, res) => {
         console.log('🧾 Datos del producto recibido para actualizar stock:');
 newOrder.products.forEach((item, i) => {
   console.log(`🟡 Producto #${i + 1}:`, {
-    productId: metadata.items.product_id,
+    productId: item.product_id,
     talla: item.talla,
     quantity: item.quantity
   });
