@@ -22,8 +22,8 @@ router.post('/create_preference', async (req, res) => {
       items,
       back_urls: {
         success: "https://ecommerce-app-f.netlify.app/",
-        failure: "https://ecommerce-app-f.netlify.app/failure",
-        pending: "https://ecommerce-app-f.netlify.app/pending"
+        failure: "https://ecommerce-app-f.netlify.app/",
+        pending: "https://ecommerce-app-f.netlify.app/"
       },
       auto_return: "approved",
       notification_url: "https://ecommerce-app-0bh1.onrender.com/mercadopago/webhook",

@@ -1,12 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { auth } from '../firebase/firebaseconfig';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+  useEffect(() => {
+  if (auth.currentUser) {
+    signOut(auth).catch((err) => {
+      console.error('Error cerrando sesión:', err);
+    });
+  }
+}, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();

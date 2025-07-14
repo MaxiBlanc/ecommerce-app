@@ -3,14 +3,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import RegisterForm from './components/RegisterForm';
 import LoginForm from './components/LoginForm';
 import UserInfo from './components/UserInfo';
-import LogoutButton from './components/LogoutButton';
 import Navbar from './components/Navbar';
 import ProductList from './components/ProductList';
 import ProductAdmin from './components/ProductAdmin';
 import Cart from './components/Cart';
-import Success from './pages/success';
-import Failure from './pages/Failure';
-import Pending from './pages/Pending';
 import ProductDetail from './components/ProductDetail';
 import MisPedidos from './components/MisPedidos';
 import TodosLosPedidos from './components/TodosLosPedidos';
@@ -28,14 +24,10 @@ function App() {
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/admin/pedidos" element={<TodosLosPedidos />} />
-          <Route path="/logout" element={<LogoutButton />} />
           <Route path="/mis-pedidos" element={<MisPedidos />} />
           <Route path="/Product" element={<ProductAdmin />} />
           <Route path="/producto/:id" element={<ProductDetail />} />
           <Route path="/carrito" element={<Cart />} />
-          <Route path="/success" element={<Success />} />
-        <Route path="/failure" element={<Failure />} />
-        <Route path="/pending" element={<Pending />} />
         </Routes>
       </div>
     </Router>

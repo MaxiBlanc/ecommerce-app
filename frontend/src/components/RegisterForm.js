@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { auth } from '../firebase/firebaseconfig';
 import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from 'firebase/auth';
+import { useEffect, useState } from 'react';
+import { signOut } from 'firebase/auth';
+
 
 
 export default function RegisterForm() {
@@ -9,6 +12,15 @@ export default function RegisterForm() {
   const [name, setName] = useState('');
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+
+  useEffect(() => {
+  if (auth.currentUser) {
+    signOut(auth).catch((err) => {
+      console.error('Error cerrando sesión:', err);
+    });
+  }
+}, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
