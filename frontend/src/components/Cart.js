@@ -47,10 +47,44 @@ export default function Cart() {
     }
   };
 
-  useEffect(() => {
+ useEffect(() => {
+  const sincronizarCarritoConStock = async () => {
     const datos = JSON.parse(localStorage.getItem('carrito')) || [];
-    setCarrito(datos);
-  }, []);
+
+    const carritoActualizado = await Promise.all(
+      datos.map(async (item) => {
+        try {
+          const res = await fetch(`https://firestore.googleapis.com/v1/projects/TU_PROYECTO/databases/(default)/documents/products/${item.id}`);
+          const data = await res.json();
+
+          const sizes = data.fields?.sizes?.arrayValue?.values || [];
+          const tallaEncontrada = sizes.find(s =>
+            s.mapValue.fields.talla.stringValue === item.size?.talla
+          );
+
+          const stockActual = tallaEncontrada?.mapValue.fields.stock.integerValue || item.size?.stock || 1;
+
+          return {
+            ...item,
+            size: {
+              ...item.size,
+              stock: Number(stockActual),
+            }
+          };
+        } catch (error) {
+          console.error('❌ Error sincronizando stock del producto', item.id);
+          return item; // Devolver original si falla
+        }
+      })
+    );
+
+    setCarrito(carritoActualizado);
+    localStorage.setItem('carrito', JSON.stringify(carritoActualizado));
+  };
+
+  sincronizarCarritoConStock();
+}, []);
+
 
   const actualizarCantidad = (id, talla, nuevaCantidad) => {
     const producto = carrito.find(p => p.id === id && p.size?.talla === talla);
