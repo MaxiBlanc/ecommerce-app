@@ -25,9 +25,9 @@ export default function TodosLosPedidos() {
     }
   };
 
-  useEffect(() => {
-    fetchPedidos();
-  }, []);
+useEffect(() => {
+  aplicarFiltros();
+}, [aplicarFiltros]);
 
   const handleStatusChange = async (id, nuevoEstado) => {
     try {
