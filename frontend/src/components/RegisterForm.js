@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { auth } from '../firebase/firebaseconfig';
 import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from 'firebase/auth';
 import { useEffect, useState } from 'react';
