@@ -116,9 +116,9 @@ newOrder.products.forEach((item, i) => {
           if (productSnap.exists) {
             const productData = productSnap.data();
             console.log('🔎 Comprobando talla:', {
-  talleDeProducto: size.talla,
+  talleDeProducto: sizes.talla,
   talleComprado: item.talla,
-  iguales: size.talla === item.talla
+  iguales: sizes.talla === item.talla
 });
 
             const updatedSizes = productData.sizes.map(size => {
