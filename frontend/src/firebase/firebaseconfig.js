@@ -1,6 +1,6 @@
 // src/firebase/firebaseconfig.js
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged  } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore'; // ⬅️ IMPORTAR ESTO
 
 const firebaseConfig = {
@@ -16,6 +16,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app); // ⬅️ CREAR DB
 
-export { auth, db }; // ⬅️ EXPORTAR DB
+export { auth, db, onAuthStateChanged  }; // ⬅️ EXPORTAR DB
 
 export default app;
