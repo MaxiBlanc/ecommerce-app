@@ -124,19 +124,25 @@ router.patch('/:id/status', async (req, res) => {
 });
 
 
-app.put('/orders/update-status/:id', async (req, res) => {
+// Cambiar estado de pedido
+router.put('/update-status/:id', async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
+
+  if (!status) {
+    return res.status(400).json({ error: 'Estado requerido' });
+  }
 
   try {
     const orderRef = db.collection('orders').doc(id);
     await orderRef.update({ status });
-    res.status(200).json({ message: 'Estado actualizado correctamente' });
-  } catch (error) {
-    console.error('Error actualizando el estado:', error);
-    res.status(500).json({ message: 'Error actualizando el estado' });
+    res.send({ message: 'Estado actualizado correctamente' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error actualizando estado del pedido' });
   }
 });
+
 
 
 module.exports = router;
