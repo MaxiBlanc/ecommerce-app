@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import '../styles/ProductAdmin.css';
+import '../components/ProductAdmin.css';
 
 export default function ProductAdmin() {
   const [name, setName] = useState('');
