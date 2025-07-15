@@ -1,5 +1,5 @@
 /* Contenedor principal */
-.mis-pedidos-container {
+.pedidos-container {
   max-width: 700px;
   margin: auto;
   background-color: #f1f3f5;
@@ -8,7 +8,7 @@
 }
 
 /* Título */
-.mis-pedidos-title {
+.pedidos-title {
   font-weight: 700;
   font-size: 1.8rem;
   text-align: center;
@@ -16,14 +16,15 @@
   margin-bottom: 1.5rem;
 }
 
-/* Card de pedido */
+/* Card de cada pedido */
 .pedido-card {
+  position: relative;
   background-color: #dee2e6;
   border-radius: 10px;
   padding: 1rem;
-  margin-bottom: 1rem;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 1rem;
 }
 
 .pedido-card:hover {
@@ -31,24 +32,39 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* Texto de detalle */
+/* Texto dentro de la card */
 .pedido-card p {
-  margin: 0.3rem 0;
+  margin: 0.4rem 0;
+  font-size: 0.95rem;
   color: #212529;
 }
 
 /* Lista de productos */
 .pedido-productos {
-  list-style: none;
-  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
   margin-top: 0.5rem;
+  padding: 0;
+  list-style: none;
 }
 
+/* Item producto */
 .pedido-productos li {
   background-color: #e9ecef;
   border-radius: 6px;
-  padding: 0.4rem 0.6rem;
-  margin-bottom: 0.4rem;
-  font-size: 0.95rem;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.9rem;
   color: #495057;
+}
+
+/* Estado badge */
+.estado-badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background-color: #ced4da;
+  color: #212529;
 }
