@@ -1,0 +1,54 @@
+/* Contenedor principal */
+.mis-pedidos-container {
+  max-width: 700px;
+  margin: auto;
+  background-color: #f1f3f5;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+/* Título */
+.mis-pedidos-title {
+  font-weight: 700;
+  font-size: 1.8rem;
+  text-align: center;
+  color: #212529;
+  margin-bottom: 1.5rem;
+}
+
+/* Card de pedido */
+.pedido-card {
+  background-color: #dee2e6;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pedido-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Texto de detalle */
+.pedido-card p {
+  margin: 0.3rem 0;
+  color: #212529;
+}
+
+/* Lista de productos */
+.pedido-productos {
+  list-style: none;
+  padding: 0;
+  margin-top: 0.5rem;
+}
+
+.pedido-productos li {
+  background-color: #e9ecef;
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+  color: #495057;
+}

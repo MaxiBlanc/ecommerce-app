@@ -38,36 +38,33 @@ export default function MisPedidos() {
     fetchPedidos();
   }, []);
 
-  return (
-    <div style={{ maxWidth: 800, margin: 'auto', padding: 20 }}>
-      <h2>📦 Mis pedidos</h2>
+ return (
+    <div className="mis-pedidos-container">
+      <h2 className="mis-pedidos-title">📦 Mis pedidos</h2>
       {loading ? (
         <p>Cargando...</p>
       ) : pedidos.length === 0 ? (
         <p>No hay pedidos aún.</p>
       ) : (
         pedidos.map((p) => (
-          <div
-            key={p.id}
-            style={{
-              border: '1px solid #ccc',
-              marginBottom: 20,
-              padding: 10,
-              borderRadius: 8,
-            }}
-          >
-            <p><strong>Fecha:</strong> {
-  p.createdAt?._seconds
-    ? new Date(p.createdAt._seconds * 1000).toLocaleDateString('es-AR', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      })
-    : 'Fecha no disponible'
-}</p>
-            <p><strong>Total:</strong> ${p.amount}</p>
-            <p><strong>Estado:</strong> {p.status}</p>
-            <ul>
+          <div key={p.id} className="pedido-card">
+            <p>
+              <strong>Fecha:</strong>{' '}
+              {p.createdAt?._seconds
+                ? new Date(p.createdAt._seconds * 1000).toLocaleDateString('es-AR', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                  })
+                : 'Fecha no disponible'}
+            </p>
+            <p>
+              <strong>Total:</strong> ${p.amount}
+            </p>
+            <p>
+              <strong>Estado:</strong> {p.status}
+            </p>
+            <ul className="pedido-productos">
               {p.products.map((prod, i) => (
                 <li key={i}>
                   {prod.title} - Talla: {prod.talla} - Cant: {prod.quantity} - ${prod.unit_price}
