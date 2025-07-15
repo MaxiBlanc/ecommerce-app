@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import '../styles/ProductAdmin.css';
 
 export default function ProductAdmin() {
   const [name, setName] = useState('');
@@ -129,49 +130,96 @@ export default function ProductAdmin() {
     }
   };
 
-  return (
-    <div style={{ maxWidth: 600, margin: 'auto' }}>
-      <h2>{editingId ? 'Editar Producto' : 'Agregar Producto'}</h2>
-      <form onSubmit={handleAddOrUpdateProduct} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <input placeholder="Nombre" value={name} onChange={e => setName(e.target.value)} required />
-        <input placeholder="Precio" type="number" value={price} onChange={e => setPrice(e.target.value)} required />
-        <input placeholder="Tipo" value={type} onChange={e => setType(e.target.value)} required />
-        <input placeholder="Descripción" value={description} onChange={e => setDescription(e.target.value)} />
-        
-        <div>
-          <strong>Tallas:</strong>
+return (
+  <div className="product-admin-container">
+    <h2 className="product-admin-title">
+      {editingId ? 'Editar Producto' : 'Agregar Producto'}
+    </h2>
+    <form onSubmit={handleAddOrUpdateProduct} className="product-admin-form">
+      <input
+        placeholder="Nombre"
+        value={name}
+        onChange={e => setName(e.target.value)}
+        required
+      />
+      <input
+        placeholder="Precio"
+        type="number"
+        value={price}
+        onChange={e => setPrice(e.target.value)}
+        required
+      />
+      <input
+        placeholder="Tipo"
+        value={type}
+        onChange={e => setType(e.target.value)}
+        required
+      />
+      <input
+        placeholder="Descripción"
+        value={description}
+        onChange={e => setDescription(e.target.value)}
+      />
+
+      <div>
+        <strong>Tallas:</strong>
+        <div className="product-admin-sizes">
           {sizes.map((s, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <span>{s.talla} - Stock: {s.stock}</span>
+            <div key={i} className="product-admin-size-item">
+              <span>
+                {s.talla} - Stock: {s.stock}
+              </span>
               <button type="button" onClick={() => handleDeleteSize(i)}>❌</button>
             </div>
           ))}
           <div style={{ display: 'flex', gap: 10 }}>
-            <input placeholder="Talla" value={newSize} onChange={e => setNewSize(e.target.value)} />
-            <input placeholder="Stock" type="number" value={newStock} onChange={e => setNewStock(e.target.value)} />
+            <input
+              placeholder="Talla"
+              value={newSize}
+              onChange={e => setNewSize(e.target.value)}
+            />
+            <input
+              placeholder="Stock"
+              type="number"
+              value={newStock}
+              onChange={e => setNewStock(e.target.value)}
+            />
             <button type="button" onClick={handleAddSize}>➕</button>
           </div>
         </div>
+      </div>
 
-        <label>Seleccionar imágenes (múltiples):</label>
-        <input type="file" multiple accept="image/*" onChange={handleImageFilesChange} />
+      <label>Seleccionar imágenes (múltiples):</label>
+      <input
+        type="file"
+        multiple
+        accept="image/*"
+        onChange={handleImageFilesChange}
+      />
 
-        <button type="button" onClick={handleUploadImages} disabled={uploading || imageFiles.length === 0}>
-          {uploading ? 'Cargando...' : 'Cargar imágenes'}
-        </button>
+      <button
+        type="button"
+        onClick={handleUploadImages}
+        disabled={uploading || imageFiles.length === 0}
+      >
+        {uploading ? 'Cargando...' : 'Cargar imágenes'}
+      </button>
 
-        {imageUrls.length > 0 && (
-          <div>
-            <p>Imágenes subidas:</p>
-            {imageUrls.map((url, i) => (
-              <img key={i} src={url} alt={`imagen ${i + 1}`} style={{ width: 100, marginRight: 10 }} />
-            ))}
-          </div>
-        )}
+      {imageUrls.length > 0 && (
+        <div className="product-admin-images">
+          {imageUrls.map((url, i) => (
+            <img key={i} src={url} alt={`imagen ${i + 1}`} />
+          ))}
+        </div>
+      )}
 
-        <button type="submit" disabled={uploading}>{editingId ? 'Guardar cambios' : 'Agregar producto'}</button>
-        {editingId && (
-          <button type="button" onClick={() => {
+      <button type="submit" disabled={uploading}>
+        {editingId ? 'Guardar cambios' : 'Agregar producto'}
+      </button>
+      {editingId && (
+        <button
+          type="button"
+          onClick={() => {
             setEditingId(null);
             setName('');
             setPrice('');
@@ -182,24 +230,27 @@ export default function ProductAdmin() {
             setNewStock('');
             setImageUrls([]);
             setImageFiles([]);
-          }}>Cancelar edición</button>
-        )}
-      </form>
+          }}
+        >
+          Cancelar edición
+        </button>
+      )}
+    </form>
 
-      <hr />
+    <hr />
 
-      <h3>Productos existentes</h3>
-      <ul style={{ listStyle: 'none', padding: 0 }}>
-        {products.map(p => (
-          <li key={p.id} style={{ borderBottom: '1px solid #ccc', padding: 10 }}>
-            <strong>{p.name}</strong> - ${p.price}
-            <div>
-              <button onClick={() => handleEdit(p)} style={{ marginRight: 10 }}>✏️ Editar</button>
-              <button onClick={() => handleDelete(p.id)}>🗑️ Eliminar</button>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+    <h3>Productos existentes</h3>
+    <ul className="product-admin-products">
+      {products.map(p => (
+        <li key={p.id} className="product-admin-product-item">
+          <strong>{p.name}</strong> - ${p.price}
+          <div>
+            <button onClick={() => handleEdit(p)} style={{ marginRight: 10 }}>✏️</button>
+            <button onClick={() => handleDelete(p.id)}>🗑️</button>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
 }

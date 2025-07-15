@@ -1,0 +1,104 @@
+/* Contenedor principal */
+.product-admin-container {
+  max-width: 900px;
+  margin: auto;
+  background-color: #f1f3f5;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+/* Título */
+.product-admin-title {
+  font-weight: 700;
+  font-size: 1.8rem;
+  text-align: center;
+  color: #212529;
+  margin-bottom: 1.5rem;
+}
+
+/* Formulario */
+.product-admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Inputs y selects */
+.product-admin-form input,
+.product-admin-form button {
+  padding: 0.6rem;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+/* Botones */
+.product-admin-form button {
+  background-color: #212529;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.product-admin-form button:hover {
+  background-color: #343a40;
+}
+
+/* Sección de tallas */
+.product-admin-sizes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.product-admin-size-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #dee2e6;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+}
+
+/* Lista de productos existentes */
+.product-admin-products {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.product-admin-product-item {
+  background-color: #c5c9cc;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product-admin-product-item strong {
+  font-size: 1.1rem;
+  color: #212529;
+}
+
+.product-admin-product-item button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+/* Imágenes cargadas */
+.product-admin-images {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.product-admin-images img {
+  width: 100px;
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+}
