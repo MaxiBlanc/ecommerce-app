@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { auth } from '../firebase/firebaseconfig';
+import './Cart.css';
 
 export default function Cart() {
   const [carrito, setCarrito] = useState([]);
@@ -108,36 +109,36 @@ if (!producto || isNaN(nuevaCantidad) || nuevaCantidad < 1 || nuevaCantidad > pr
 
   const total = carrito.reduce((acc, item) => acc + item.price * item.cantidad, 0);
 
-  return (
-  <div className="container my-4">
-    <h2 className="mb-4">
+
+return (
+  <div className="container cart-container my-5">
+    <h2 className="cart-title mb-4">
       🛒 Carrito de compras
     </h2>
 
     {carrito.length === 0 ? (
-      <p className="text-muted">No hay productos en el carrito</p>
+      <p className="text-muted fs-5">No hay productos en el carrito</p>
     ) : (
       <ul className="list-unstyled">
         {carrito.map(item => (
           <li
             key={`${item.id}-${item.size?.talla || 'default'}`}
-            className="d-flex flex-column flex-md-row align-items-center gap-3 py-3 border-bottom"
+            className="cart-item d-flex flex-column flex-md-row align-items-center gap-3 p-3 mb-3 shadow-sm"
           >
             {item.imageUrls?.[0] && (
               <img
                 src={item.imageUrls[0]}
                 alt={item.name}
-                className="img-fluid rounded"
-                style={{ maxWidth: 120 }}
+                className="cart-item-image"
               />
             )}
             <div className="flex-fill">
-              <h5 className="mb-1">{item.name}</h5>
+              <h5 className="mb-1 fw-semibold">{item.name}</h5>
               <p className="mb-1">
                 <strong>Talle:</strong> {item.size?.talla || 'N/A'}
               </p>
               <p className="mb-1">
-                Precio: <span className="fw-semibold text-primary">${item.price}</span>
+                Precio: <span className="fw-bold text-primary">${item.price}</span>
               </p>
               <div className="d-flex align-items-center mb-2">
                 <label className="me-2 mb-0">Cantidad:</label>
@@ -146,8 +147,7 @@ if (!producto || isNaN(nuevaCantidad) || nuevaCantidad < 1 || nuevaCantidad > pr
                   value={item.cantidad}
                   min={1}
                   max={item.size?.stock || 1}
-                  className="form-control form-control-sm"
-                  style={{ width: 80 }}
+                  className="form-control form-control-sm cart-input"
                   onChange={e => {
                     const value = parseInt(e.target.value);
                     if (!isNaN(value) && value <= (item.size?.stock || 1)) {
@@ -170,12 +170,12 @@ if (!producto || isNaN(nuevaCantidad) || nuevaCantidad < 1 || nuevaCantidad > pr
 
     {carrito.length > 0 && (
       <div className="mt-4 text-end">
-        <h4 className="fw-bold">
+        <h4 className="fw-bold mb-3">
           Total: <span className="text-success">${total}</span>
         </h4>
         <button
           onClick={handleCheckout}
-          className="btn btn-primary btn-lg mt-2"
+          className="btn btn-lg btn-success cart-pay-btn"
         >
           💳 Pagar con Mercado Pago
         </button>
@@ -183,4 +183,5 @@ if (!producto || isNaN(nuevaCantidad) || nuevaCantidad < 1 || nuevaCantidad > pr
     )}
   </div>
 );
+
 }
