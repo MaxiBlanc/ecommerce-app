@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import '../components/ProductDetail.css';
+
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -47,28 +49,38 @@ export default function ProductDetail() {
 
   if (!producto) return <p>Cargando producto...</p>;
 
-  return (
-    <div style={{ maxWidth: 600, margin: 'auto' }}>
+return (
+  <div className="product-detail-container">
+    <div className="product-detail-images">
+      {producto.imageUrls?.map((url, i) => (
+        <img key={i} src={url} alt={`${producto.name} ${i + 1}`} />
+      ))}
+    </div>
+
+    <div className="product-detail-info">
       <h2>{producto.name}</h2>
-      <p>Precio: ${producto.price}</p>
-      <p>Tipo: {producto.type}</p>
-      <p>Descripción: {producto.description}</p>
+      <p className="product-detail-description">{producto.description}</p>
+      <p className="product-detail-price">${producto.price}</p>
 
-      {producto.imageUrls?.[0] && (
-        <img src={producto.imageUrls[0]} alt={producto.name} style={{ width: '100%', maxWidth: 300 }} />
-      )}
+      <div className="product-detail-sizes">
+        <label htmlFor="size-select">Talla:</label>
+        <select
+          id="size-select"
+          value={tallaSeleccionada}
+          onChange={e => setTallaSeleccionada(e.target.value)}
+        >
+          <option value="">Selecciona una talla</option>
+          {producto.sizes.map(s => (
+            <option key={s.talla} value={s.talla} disabled={s.stock < 1}>
+              {s.talla} - {s.stock > 0 ? `Stock: ${s.stock}` : 'Sin stock'}
+            </option>
+          ))}
+        </select>
+      </div>
 
-      <h4>Tallas disponibles</h4>
-      <select value={tallaSeleccionada} onChange={e => setTallaSeleccionada(e.target.value)}>
-        <option value="">Selecciona una talla</option>
-        {producto.sizes.map(s => (
-          <option key={s.talla} value={s.talla} disabled={s.stock < 1}>
-            {s.talla} - {s.stock > 0 ? `Stock: ${s.stock}` : 'Sin stock'}
-          </option>
-        ))}
-      </select>
-      <br /><br />
       <button onClick={agregarAlCarrito}>Agregar al carrito</button>
     </div>
-  );
+  </div>
+);
+
 }

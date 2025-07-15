@@ -243,7 +243,7 @@ return (
     <ul className="product-admin-products">
       {products.map(p => (
         <li key={p.id} className="product-admin-product-item">
-          <strong>{p.name}</strong> - ${p.price}
+          <strong>{p.name}</strong>  ${p.price}
           <div>
             <button onClick={() => handleEdit(p)} style={{ marginRight: 10 }}>✏️</button>
             <button onClick={() => handleDelete(p.id)}>🗑️</button>
