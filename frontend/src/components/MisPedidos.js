@@ -75,9 +75,24 @@ function getStatusClass(status) {
               <strong>Total:</strong> ${p.amount}
             </p>
             <p>
-              <strong>Estado:</strong>{' '}
-              <span className={getStatusClass(p.status)}>{p.status}</span>
-            </p>
+  <strong>Estado:</strong>{' '}
+  <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+    <span
+      className={`estado-circle ${
+        p.status === 'approved'
+          ? 'estado-aproved'
+          : p.status === 'dispatched'
+          ? 'estado-despachado'
+          : p.status === 'successfully delivered'
+          ? 'estado-delivered'
+          : ''
+      }`}
+    ></span>
+    {p.status === 'approved' && 'Aprobado'}
+    {p.status === 'dispatched' && 'Despachado'}
+    {p.status === 'successfully delivered' && 'Entregado'}
+  </span>
+</p>
             <ul className="pedido-productos">
               {p.products.map((prod, i) => (
                 <li key={i}>
