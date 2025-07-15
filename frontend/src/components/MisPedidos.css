@@ -61,10 +61,25 @@
 /* Estado badge */
 .estado-badge {
   display: inline-block;
-  padding: 0.2rem 0.5rem;
+  padding: 0.25rem 0.6rem;
   border-radius: 4px;
   font-size: 0.85rem;
   font-weight: 500;
-  background-color: #ced4da;
-  color: #212529;
+  text-transform: capitalize;
+}
+
+/* Colores por estado */
+.estado-aproved {
+  background-color: #fff3cd; /* amarillo clarito */
+  color: #856404;
+}
+
+.estado-despachado {
+  background-color: #e6f5c9; /* verdeamarillo */
+  color: #4d5f00;
+}
+
+.estado-delivered {
+  background-color: #d4edda; /* verde claro */
+  color: #155724;
 }

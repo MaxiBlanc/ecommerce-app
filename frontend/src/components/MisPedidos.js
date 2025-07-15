@@ -39,7 +39,7 @@ export default function MisPedidos() {
     fetchPedidos();
   }, []);
 
-return (
+  return (
     <div className="pedidos-container">
       <h2 className="pedidos-title">📦 Mis pedidos</h2>
       {loading ? (
@@ -64,7 +64,7 @@ return (
             </p>
             <p>
               <strong>Estado:</strong>{' '}
-              <span className="estado-badge">{p.status}</span>
+              <span className={getStatusClass(p.status)}>{p.status}</span>
             </p>
             <ul className="pedido-productos">
               {p.products.map((prod, i) => (
