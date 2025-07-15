@@ -41,11 +41,11 @@ export default function MisPedidos() {
 function getStatusClass(status) {
   switch (status) {
     case 'approved':
-      return 'estado-aprobado'; // amarillo
+      return 'estado-aproved'; // amarillo
     case 'dispatched':
       return 'estado-despachado'; // verde-amarillo
     case 'successfully delivered':
-      return 'estado-entregado'; // verde
+      return 'estado-delivered'; // verde
     default:
       return '';
   }
