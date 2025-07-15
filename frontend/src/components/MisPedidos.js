@@ -38,6 +38,18 @@ export default function MisPedidos() {
 
     fetchPedidos();
   }, []);
+function getStatusClass(status) {
+  switch (status) {
+    case 'approved':
+      return 'estado-aprobado'; // amarillo
+    case 'dispatched':
+      return 'estado-despachado'; // verde-amarillo
+    case 'successfully delivered':
+      return 'estado-entregado'; // verde
+    default:
+      return '';
+  }
+}
 
   return (
     <div className="pedidos-container">

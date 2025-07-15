@@ -1,0 +1,91 @@
+/* Contenedor principal */
+.todos-pedidos-container {
+  max-width: 900px;
+  margin: auto;
+  background-color: #f1f3f5;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+/* Título */
+.todos-pedidos-title {
+  font-weight: 700;
+  font-size: 1.8rem;
+  text-align: center;
+  color: #212529;
+  margin-bottom: 1.5rem;
+}
+
+/* Filtros arriba */
+.todos-pedidos-filtros {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* Select e input */
+.todos-pedidos-filtros select,
+.todos-pedidos-filtros input {
+  padding: 0.5rem;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background-color: #fff;
+}
+
+/* Card pedido */
+.pedido-admin-card {
+  background-color: #dee2e6;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pedido-admin-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Texto dentro de la card */
+.pedido-admin-card p {
+  margin: 0.4rem 0;
+  font-size: 0.95rem;
+  color: #212529;
+}
+
+/* Lista productos */
+.pedido-admin-productos {
+  list-style: none;
+  padding: 0;
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.pedido-admin-productos li {
+  background-color: #e9ecef;
+  border-radius: 6px;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+/* Radios de estado */
+.pedido-admin-estados {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.pedido-admin-estados label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
+  color: #212529;
+}

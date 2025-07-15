@@ -1,6 +1,7 @@
 // src/components/TodosLosPedidos.js
 import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
+import '../styles/TodosLosPedidos.css'; // Importá tu CSS
 
 export default function TodosLosPedidos() {
   const [pedidos, setPedidos] = useState([]);
@@ -49,11 +50,11 @@ export default function TodosLosPedidos() {
 
   const pedidosFiltrados = aplicarFiltros();
 
-  return (
-    <div style={{ maxWidth: 900, margin: 'auto', padding: 20 }}>
-      <h2>📋 Todos los pedidos</h2>
+return (
+    <div className="todos-pedidos-container">
+      <h2 className="todos-pedidos-title">📋 Todos los pedidos</h2>
 
-      <div style={{ display: 'flex', gap: 20, marginBottom: 20 }}>
+      <div className="todos-pedidos-filtros">
         <select value={filtroStatus} onChange={e => setFiltroStatus(e.target.value)}>
           <option value="">Todos</option>
           <option value="approved">Aprobado</option>
@@ -70,16 +71,8 @@ export default function TodosLosPedidos() {
       </div>
 
       {pedidosFiltrados.map((p) => (
-        <div
-          key={p.id}
-          style={{
-            border: '1px solid #ccc',
-            borderRadius: 8,
-            padding: 10,
-            marginBottom: 20
-          }}
-        >
-          <p><strong>nro de Order:</strong> {p.id}</p>
+        <div key={p.id} className="pedido-admin-card">
+          <p><strong>Nro de Order:</strong> {p.id}</p>
           <p><strong>Cliente:</strong> {p.customerName} ({p.customerEmail})</p>
           <p><strong>Fecha:</strong> {
             p.createdAt?._seconds
@@ -87,27 +80,24 @@ export default function TodosLosPedidos() {
               : 'Fecha no disponible'
           }</p>
           <p><strong>Total:</strong> ${p.amount}</p>
-          <p>
-            <strong>Estado:</strong>{' '}
-            <div style={{ display: 'flex', gap: '10px' }}>
-  {['approved', 'dispatched', 'successfully delivered'].map((estado) => (
-    <label key={estado} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-      <input
-        type="radio"
-        name={`estado-${p.id}`}
-        value={estado}
-        checked={p.status === estado}
-        onChange={() => actualizarEstado(p.id, estado)}
-      />
-      {estado === 'approved' && 'Aprobado'}
-      {estado === 'dispatched' && 'Despachado'}
-      {estado === 'successfully delivered' && 'Entregado'}
-    </label>
-  ))}
-</div>
-
-          </p>
-          <ul>
+          <p><strong>Estado:</strong></p>
+          <div className="pedido-admin-estados">
+            {['approved', 'dispatched', 'successfully delivered'].map((estado) => (
+              <label key={estado}>
+                <input
+                  type="radio"
+                  name={`estado-${p.id}`}
+                  value={estado}
+                  checked={p.status === estado}
+                  onChange={() => actualizarEstado(p.id, estado)}
+                />
+                {estado === 'approved' && 'Aprobado'}
+                {estado === 'dispatched' && 'Despachado'}
+                {estado === 'successfully delivered' && 'Entregado'}
+              </label>
+            ))}
+          </div>
+          <ul className="pedido-admin-productos">
             {p.products.map((prod, i) => (
               <li key={i}>
                 {prod.title} - Talla: {prod.talla} - Cant: {prod.quantity} - ${prod.unit_price}
