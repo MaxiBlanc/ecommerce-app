@@ -109,64 +109,78 @@ if (!producto || isNaN(nuevaCantidad) || nuevaCantidad < 1 || nuevaCantidad > pr
   const total = carrito.reduce((acc, item) => acc + item.price * item.cantidad, 0);
 
   return (
-    <div style={{ maxWidth: 800, margin: 'auto' }}>
-      <h2>🛒 Carrito de compras</h2>
+  <div className="container my-4">
+    <h2 className="mb-4">
+      🛒 Carrito de compras
+    </h2>
 
-      {carrito.length === 0 ? (
-        <p>No hay productos en el carrito</p>
-      ) : (
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          {carrito.map(item => (
-            <li
-              key={`${item.id}-${item.size?.talla || 'default'}`}
-              style={{ borderBottom: '1px solid #ccc', padding: 10, display: 'flex', alignItems: 'center', gap: 20 }}
-            >
-              {item.imageUrls?.[0] && (
-                <img
-                  src={item.imageUrls[0]}
-                  alt={item.name}
-                  style={{ width: 100, height: 'auto', borderRadius: 8 }}
+    {carrito.length === 0 ? (
+      <p className="text-muted">No hay productos en el carrito</p>
+    ) : (
+      <ul className="list-unstyled">
+        {carrito.map(item => (
+          <li
+            key={`${item.id}-${item.size?.talla || 'default'}`}
+            className="d-flex flex-column flex-md-row align-items-center gap-3 py-3 border-bottom"
+          >
+            {item.imageUrls?.[0] && (
+              <img
+                src={item.imageUrls[0]}
+                alt={item.name}
+                className="img-fluid rounded"
+                style={{ maxWidth: 120 }}
+              />
+            )}
+            <div className="flex-fill">
+              <h5 className="mb-1">{item.name}</h5>
+              <p className="mb-1">
+                <strong>Talle:</strong> {item.size?.talla || 'N/A'}
+              </p>
+              <p className="mb-1">
+                Precio: <span className="fw-semibold text-primary">${item.price}</span>
+              </p>
+              <div className="d-flex align-items-center mb-2">
+                <label className="me-2 mb-0">Cantidad:</label>
+                <input
+                  type="number"
+                  value={item.cantidad}
+                  min={1}
+                  max={item.size?.stock || 1}
+                  className="form-control form-control-sm"
+                  style={{ width: 80 }}
+                  onChange={e => {
+                    const value = parseInt(e.target.value);
+                    if (!isNaN(value) && value <= (item.size?.stock || 1)) {
+                      actualizarCantidad(item.id, item.size?.talla, value);
+                    }
+                  }}
                 />
-              )}
-              <div style={{ flex: 1 }}>
-                <h3>{item.name}</h3>
-                <p><strong>Talle:</strong> {item.size?.talla || 'N/A'}</p>
-                <p>Precio: ${item.price}</p>
-                <p>
-                  Cantidad:
-                  <input
-  type="number"
-  value={item.cantidad}
-  min={1}
-  max={item.size?.stock || 1}
-  style={{ width: 60, marginLeft: 5 }}
-  onChange={e => {
-    const value = parseInt(e.target.value);
-    if (!isNaN(value) && value <= (item.size?.stock || 1)) {
-      actualizarCantidad(item.id, item.size?.talla, value);
-    }
-  }}
-/>
-
-                </p>
-                <button
-                  onClick={() => eliminarProducto(item.id, item.size?.talla)}
-                  style={{ background: 'crimson', color: 'white', border: 'none', padding: '5px 10px' }}
-                >
-                  🗑️ Eliminar
-                </button>
               </div>
-            </li>
-          ))}
-        </ul>
-      )}
+              <button
+                onClick={() => eliminarProducto(item.id, item.size?.talla)}
+                className="btn btn-sm btn-danger"
+              >
+                🗑️ Eliminar
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
+    )}
 
-      {carrito.length > 0 && (
-        <div style={{ marginTop: 20 }}>
-          <h3>Total: ${total}</h3>
-          <button onClick={handleCheckout}>Pagar con Mercado Pago</button>
-        </div>
-      )}
-    </div>
-  );
+    {carrito.length > 0 && (
+      <div className="mt-4 text-end">
+        <h4 className="fw-bold">
+          Total: <span className="text-success">${total}</span>
+        </h4>
+        <button
+          onClick={handleCheckout}
+          className="btn btn-primary btn-lg mt-2"
+        >
+          💳 Pagar con Mercado Pago
+        </button>
+      </div>
+    )}
+  </div>
+);
 }
