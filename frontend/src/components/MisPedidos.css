@@ -78,13 +78,13 @@
 
 /* Colores */
 .estado-aproved {
-  background-color: #d39e00; /* amarillo */
+  background-color: hsl(56, 100%, 50%); /* amarillo */
 }
 
 .estado-despachado {
-  background-color: #8bc34a; /* verdeamarillo */
+  background-color: hwb(93 0% 0%); /* verdeamarillo */
 }
 
 .estado-delivered {
-  background-color: #28a745; /* verde */
+  background-color: hsl(134, 100%, 50%); /* verde */
 }
