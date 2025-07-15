@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { auth } from '../firebase/firebaseconfig';
+import './MisPedidos.css'
 
 export default function MisPedidos() {
   const [pedidos, setPedidos] = useState([]);
