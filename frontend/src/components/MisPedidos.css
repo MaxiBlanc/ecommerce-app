@@ -19,7 +19,7 @@
 /* Card de cada pedido */
 .pedido-card {
   position: relative;
-  background-color: #dee2e6;
+  background-color: #b5b8bb;
   border-radius: 10px;
   padding: 1rem;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
@@ -51,7 +51,7 @@
 
 /* Item producto */
 .pedido-productos li {
-  background-color: #b5b8bb;
+  background-color: #dee2e6;
   border-radius: 6px;
   padding: 0.5rem 0.7rem;
   font-size: 0.9rem;
