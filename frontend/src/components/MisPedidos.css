@@ -71,15 +71,15 @@
 /* Colores por estado */
 .estado-aproved {
   background-color: #fff3cd; /* amarillo clarito */
-  color: #856404;
+  color: #fffb00;
 }
 
 .estado-despachado {
   background-color: #e6f5c9; /* verdeamarillo */
-  color: #4d5f00;
+  color: #9dff00;
 }
 
 .estado-delivered {
   background-color: #d4edda; /* verde claro */
-  color: #155724;
+  color: #00ff00;
 }
