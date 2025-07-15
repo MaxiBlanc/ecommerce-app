@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { auth } from '../firebase/firebaseconfig';
-import './Cart.css';
+import './Cart.css'
 
 export default function Cart() {
   const [carrito, setCarrito] = useState([]);
