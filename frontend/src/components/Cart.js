@@ -117,13 +117,13 @@ return (
     </h2>
 
     {carrito.length === 0 ? (
-      <p className="text-muted fs-5">No hay productos en el carrito</p>
+      <p className="text-muted fs-5 text-center">No hay productos en el carrito</p>
     ) : (
       <div className="cart-items-wrapper">
         {carrito.map(item => (
           <div
             key={`${item.id}-${item.size?.talla || 'default'}`}
-            className="cart-item shadow-sm"
+            className="cart-item"
           >
             {item.imageUrls?.[0] && (
               <img
@@ -134,7 +134,7 @@ return (
             )}
             <div className="cart-item-details">
               <div className="d-flex justify-content-between align-items-start mb-2">
-                <h5 className="fw-semibold mb-0">{item.name}</h5>
+                <h5 className="mb-0">{item.name}</h5>
                 <button
                   onClick={() => eliminarProducto(item.id, item.size?.talla)}
                   className="cart-delete-btn"
@@ -143,7 +143,7 @@ return (
                   🗑️
                 </button>
               </div>
-              <p className="mb-1 text-muted">
+              <p className="mb-1 product-size">
                 Talle: {item.size?.talla || 'N/A'}
               </p>
               <div className="d-flex align-items-center mb-2 cart-quantity">
@@ -166,10 +166,7 @@ return (
                     actualizarCantidad(
                       item.id,
                       item.size?.talla,
-                      Math.min(
-                        item.cantidad + 1,
-                        item.size?.stock || 1
-                      )
+                      Math.min(item.cantidad + 1, item.size?.stock || 1)
                     )
                   }
                 >
@@ -186,14 +183,14 @@ return (
     )}
 
     {carrito.length > 0 && (
-      <div className="cart-summary mt-4">
+      <div className="cart-summary">
         <div className="d-flex justify-content-between mb-3">
           <h4 className="fw-bold">Total</h4>
           <h4 className="text-success fw-bold">${total}</h4>
         </div>
         <button
           onClick={handleCheckout}
-          className="btn btn-dark btn-lg w-100"
+          className="btn-checkout"
         >
           💳 Finalizar Compra
         </button>
@@ -201,5 +198,4 @@ return (
     )}
   </div>
 );
-
 }
