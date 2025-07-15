@@ -1,7 +1,7 @@
 // src/components/TodosLosPedidos.js
 import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
-import '../styles/TodosLosPedidos.css'; // Importá tu CSS
+import '../components/TodosLosPedidos.css'; // Importá tu CSS
 
 export default function TodosLosPedidos() {
   const [pedidos, setPedidos] = useState([]);
