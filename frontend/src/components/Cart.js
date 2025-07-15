@@ -110,7 +110,7 @@ if (!producto || isNaN(nuevaCantidad) || nuevaCantidad < 1 || nuevaCantidad > pr
   const total = carrito.reduce((acc, item) => acc + item.price * item.cantidad, 0);
 
 
-return (
+  return (
   <div className="container cart-container my-5">
     <h2 className="cart-title mb-4">
       🛒 Carrito de compras
@@ -141,9 +141,10 @@ return (
             )}
             <div className="cart-item-details">
               <h5>{item.name}</h5>
-              <p className="product-size">
-                Talle: {item.size?.talla || 'N/A'}
-              </p>
+              <div className="cart-info">
+                <span>Talle: {item.size?.talla || 'N/A'}</span>
+                <span>Precio: ${item.price}</span>
+              </div>
               <div className="cart-quantity">
                 <button
                   className="quantity-btn"
@@ -170,9 +171,6 @@ return (
                 >
                   +
                 </button>
-              </div>
-              <div className="cart-price">
-                ${item.price}
               </div>
             </div>
           </div>

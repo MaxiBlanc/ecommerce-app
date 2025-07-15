@@ -1,13 +1,12 @@
-/* Fondo general */
 .cart-container {
-  max-width: 600px;
+  max-width: 700px;
   margin: auto;
-  background-color: #f1f3f5; /* Gris claro */
+  background-color: #f1f3f5;
   border-radius: 12px;
   padding: 1.5rem;
 }
 
-/* Título del carrito */
+/* Título */
 .cart-title {
   font-weight: 700;
   font-size: 1.8rem;
@@ -15,23 +14,22 @@
   color: #212529;
 }
 
-/* Contenedor de items */
+/* Wrapper de items */
 .cart-items-wrapper {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-/* Card del producto */
+/* Card */
 .cart-item {
   position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #dee2e6; /* Gris más oscuro */
+  align-items: flex-start;
+  background-color: #dee2e6;
   border-radius: 10px;
   padding: 1rem;
-  text-align: center;
+  gap: 1rem;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -41,16 +39,15 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* Imagen del producto */
+/* Imagen */
 .cart-item-image {
   width: 100px;
   height: 100px;
   object-fit: cover;
   border-radius: 6px;
-  margin-bottom: 0.5rem;
 }
 
-/* Botón eliminar arriba a la derecha */
+/* Botón eliminar */
 .cart-delete-btn {
   position: absolute;
   top: 0.5rem;
@@ -66,28 +63,36 @@
   color: #a71d2a;
 }
 
-/* Nombre */
-.cart-item-details h5 {
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #212529;
-  margin-bottom: 0.3rem;
+/* Detalles */
+.cart-item-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
 }
 
-/* Talle destacado */
-.product-size {
-  font-weight: 500;
+/* Nombre */
+.cart-item-details h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #212529;
+  margin: 0;
+}
+
+/* Talle y precio en una fila */
+.cart-info {
+  font-size: 0.95rem;
   color: #495057;
-  margin-bottom: 0.3rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 /* Cantidad */
 .cart-quantity {
   display: flex;
-  justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0.3rem;
 }
 
 .quantity-btn {
@@ -109,14 +114,7 @@
   font-weight: 500;
 }
 
-/* Precio */
-.cart-price {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #212529;
-}
-
-/* Bloque total y botón */
+/* Total y botón */
 .cart-summary {
   border-top: 1px solid #ced4da;
   padding-top: 1rem;
