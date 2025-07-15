@@ -2,7 +2,7 @@
 .cart-container {
   max-width: 600px;
   margin: auto;
-  background-color: #f8f9fa;
+  background-color: #f1f3f5; /* Gris claro */
   border-radius: 12px;
   padding: 1.5rem;
 }
@@ -24,12 +24,14 @@
 
 /* Card del producto */
 .cart-item {
+  position: relative;
   display: flex;
-  gap: 1rem;
-  background-color: #ffffff;
+  flex-direction: column;
+  align-items: center;
+  background-color: #dee2e6; /* Gris más oscuro */
   border-radius: 10px;
   padding: 1rem;
-  align-items: center;
+  text-align: center;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -41,34 +43,18 @@
 
 /* Imagen del producto */
 .cart-item-image {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   object-fit: cover;
   border-radius: 6px;
+  margin-bottom: 0.5rem;
 }
 
-/* Detalles del producto */
-.cart-item-details {
-  flex: 1;
-  font-size: 0.95rem;
-  color: #343a40;
-}
-
-/* Nombre del producto */
-.cart-item-details h5 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #212529;
-}
-
-/* Talle destacado */
-.cart-item-details .product-size {
-  font-weight: 500;
-  color: #495057;
-}
-
-/* Botón eliminar */
+/* Botón eliminar arriba a la derecha */
 .cart-delete-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
   background: none;
   border: none;
   font-size: 1.2rem;
@@ -80,11 +66,28 @@
   color: #a71d2a;
 }
 
+/* Nombre */
+.cart-item-details h5 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 0.3rem;
+}
+
+/* Talle destacado */
+.product-size {
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 0.3rem;
+}
+
 /* Cantidad */
 .cart-quantity {
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 0.5rem;
+  margin-bottom: 0.3rem;
 }
 
 .quantity-btn {
@@ -113,23 +116,26 @@
   color: #212529;
 }
 
-/* Contenedor total y botón */
+/* Bloque total y botón */
 .cart-summary {
-  border-top: 1px solid #dee2e6;
+  border-top: 1px solid #ced4da;
   padding-top: 1rem;
   margin-top: 1.5rem;
+  text-align: center;
 }
 
-/* Total */
-.cart-summary h4 {
+.cart-summary-total {
   font-size: 1.2rem;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 1rem;
 }
 
-/* Botón finalizar compra */
 .cart-summary .btn-checkout {
   background-color: #212529;
   border: none;
   width: 100%;
+  max-width: 300px;
   padding: 0.75rem;
   font-size: 1.05rem;
   font-weight: 600;
@@ -137,7 +143,6 @@
   border-radius: 6px;
   transition: background-color 0.2s ease;
 }
-
 .cart-summary .btn-checkout:hover {
   background-color: #343a40;
 }

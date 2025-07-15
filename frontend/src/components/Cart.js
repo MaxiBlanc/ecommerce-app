@@ -125,6 +125,13 @@ return (
             key={`${item.id}-${item.size?.talla || 'default'}`}
             className="cart-item"
           >
+            <button
+              onClick={() => eliminarProducto(item.id, item.size?.talla)}
+              className="cart-delete-btn"
+              aria-label="Eliminar"
+            >
+              🗑️
+            </button>
             {item.imageUrls?.[0] && (
               <img
                 src={item.imageUrls[0]}
@@ -133,20 +140,11 @@ return (
               />
             )}
             <div className="cart-item-details">
-              <div className="d-flex justify-content-between align-items-start mb-2">
-                <h5 className="mb-0">{item.name}</h5>
-                <button
-                  onClick={() => eliminarProducto(item.id, item.size?.talla)}
-                  className="cart-delete-btn"
-                  aria-label="Eliminar"
-                >
-                  🗑️
-                </button>
-              </div>
-              <p className="mb-1 product-size">
+              <h5>{item.name}</h5>
+              <p className="product-size">
                 Talle: {item.size?.talla || 'N/A'}
               </p>
-              <div className="d-flex align-items-center mb-2 cart-quantity">
+              <div className="cart-quantity">
                 <button
                   className="quantity-btn"
                   onClick={() =>
@@ -184,9 +182,8 @@ return (
 
     {carrito.length > 0 && (
       <div className="cart-summary">
-        <div className="d-flex justify-content-between mb-3">
-          <h4 className="fw-bold">Total</h4>
-          <h4 className="text-success fw-bold">${total}</h4>
+        <div className="cart-summary-total">
+          TOTAL: ${total}
         </div>
         <button
           onClick={handleCheckout}
@@ -198,4 +195,5 @@ return (
     )}
   </div>
 );
+
 }
