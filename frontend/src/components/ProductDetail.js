@@ -73,7 +73,8 @@ return (
     </div>
 
     <div className="product-detail-info">
-      <h2>{producto.name}  -  ${producto.price}</h2>
+      <h2>{producto.name}</h2>
+      <h3>${producto.price}</h3>
       <p className="product-detail-description">{producto.description}</p>
 
       <div className="product-detail-sizes">
