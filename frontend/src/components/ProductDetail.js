@@ -1,13 +1,12 @@
 // src/components/ProductDetail.js
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../components/ProductDetail.css';
 
 
 export default function ProductDetail() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [producto, setProducto] = useState(null);
   const [tallaSeleccionada, setTallaSeleccionada] = useState('');
   const [imagenActual, setImagenActual] = useState(0);
