@@ -17,7 +17,7 @@ import RequireAdmin from './components/RequireAdmin';
 function App() {
   return (
     <Router>
-      <div style={{ padding: '20px' }}>
+      <div className="app-container">
         <h1>Mi App</h1>
         <Navbar />
         <Routes>
