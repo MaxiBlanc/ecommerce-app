@@ -48,10 +48,7 @@ export default function ProductDetail() {
 
   if (!producto) return <p>Cargando producto...</p>;
 
-  const cambiarImagen = (direccion) => {
-  const total = producto.imageUrls.length;
-  setImagenActual((prev) => (prev + direccion + total) % total);
-};
+
 
 return (
   <div className="product-detail-container">
