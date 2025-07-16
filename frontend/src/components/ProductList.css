@@ -1,8 +1,12 @@
-.product-list-container h2 {
+.product-list-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem;
+  background-color: #f1f3f5a1;
+  border-radius: 10px;
   text-align: center;
   font-size: 1.8rem;
   margin-bottom: 1rem;
-  color: #212529;
 }
 
 .filters {
@@ -31,7 +35,6 @@
 .filters select:hover {
   border-color: #868e96;
 }
-
 
 .product-grid {
   display: grid;
