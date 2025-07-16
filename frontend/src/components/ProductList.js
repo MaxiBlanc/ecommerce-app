@@ -113,7 +113,6 @@ export default function ProductList() {
                 <div className="info">
                   <h3>{p.name}</h3>
                   <p className="price">${p.price}</p>
-                  <p className="type">{p.type}</p>
                   <Link to={`/producto/${p.id}`}>Ver detalle</Link>
                 </div>
               </div>
