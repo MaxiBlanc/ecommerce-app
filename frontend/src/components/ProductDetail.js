@@ -92,7 +92,7 @@ return (
           <option value="">Selecciona una talla</option>
           {producto.sizes.map(s => (
             <option key={s.talla} value={s.talla} disabled={s.stock < 1}>
-              {s.talla} - {s.stock > 0 ? `Stock: ${s.stock}` : 'Sin stock'}
+              {s.talla} - {s.stock > 0 ? `Stock disponible` : 'Sin stock'}
             </option>
           ))}
         </select>
