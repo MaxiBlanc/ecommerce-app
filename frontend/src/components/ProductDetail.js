@@ -10,6 +10,7 @@ export default function ProductDetail() {
   const navigate = useNavigate();
   const [producto, setProducto] = useState(null);
   const [tallaSeleccionada, setTallaSeleccionada] = useState('');
+  const [imagenActual, setImagenActual] = useState(0);
 
   useEffect(() => {
     axios.get(`https://ecommerce-app-0bh1.onrender.com/products/${id}`)
@@ -44,17 +45,31 @@ export default function ProductDetail() {
 
     localStorage.setItem('carrito', JSON.stringify(carrito));
     alert('Producto agregado al carrito');
-    navigate('/');
   };
 
   if (!producto) return <p>Cargando producto...</p>;
 
+  const cambiarImagen = (direccion) => {
+  const total = producto.imageUrls.length;
+  setImagenActual((prev) => (prev + direccion + total) % total);
+};
+
 return (
   <div className="product-detail-container">
     <div className="product-detail-images">
-      {producto.imageUrls?.map((url, i) => (
-        <img key={i} src={url} alt={`${producto.name} ${i + 1}`} />
-      ))}
+      <div className="carousel">
+  <img
+    src={producto.imageUrls[imagenActual]}
+    alt={`Imagen ${imagenActual + 1}`}
+    className="carousel-image"
+  />
+  {producto.imageUrls.length > 1 && (
+    <div className="carousel-buttons">
+      <button onClick={() => cambiarImagen(-1)}>⬅️</button>
+      <button onClick={() => cambiarImagen(1)}>➡️</button>
+    </div>
+  )}
+</div>
     </div>
 
     <div className="product-detail-info">
