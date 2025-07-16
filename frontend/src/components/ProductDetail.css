@@ -9,6 +9,18 @@
   flex-wrap: wrap;
 }
 
+.product-title-price {
+  display: flex;
+  align-items: baseline; /* Para que queden alineados por abajo */
+  gap: 0.5rem;           /* Ajustá esto para más o menos espacio horizontal */
+}
+
+.product-title-price h2,
+.product-title-price h3 {
+  margin: 0;  /* Quita los márgenes verticales que meten tanto espacio */
+}
+
+
 .product-detail-images {
   position: relative;
   width: 400px;        /* Tamaño fijo */
