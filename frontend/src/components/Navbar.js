@@ -5,12 +5,13 @@ import { useEffect, useState } from 'react';
 
 export default function Navbar() {
   const [user, setUser] = useState(null);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [adminMenuOpen, setAdminMenuOpen] = useState(false);
 
   useEffect(() => {
     const unsub = auth.onAuthStateChanged(currentUser => {
       setUser(currentUser);
     });
-
     return () => unsub();
   }, []);
 
@@ -18,39 +19,51 @@ export default function Navbar() {
     auth.signOut();
   };
 
+  const toggleUserMenu = () => setUserMenuOpen(!userMenuOpen);
+  const toggleAdminMenu = () => setAdminMenuOpen(!adminMenuOpen);
+
+  const isAdmin = user?.email === 'maxiblanc240801@gmail.com';
+
   return (
-    <nav style={{ marginBottom: '20px' }}>
-  {/* Visible para todos */}
-  <Link to="/" style={{ marginRight: 10 }}>Inicio</Link>
-  <Link to="/carrito" style={{ marginRight: 10 }}>🛒 Ir al carrito</Link>
+    <nav className="navbar">
+      <Link to="/">Inicio</Link>
+      <Link to="/carrito">🛒 Ir al carrito</Link>
 
-  {/* Si NO está logueado */}
-  {!user && (
-    <>
-      <Link to="/register" style={{ marginRight: 10 }}>Registrarse</Link>
-      <Link to="/login" style={{ marginRight: 10 }}>Login</Link>
-    </>
-  )}
+      {!user && (
+        <>
+          <Link to="/login">Login</Link>
+          <Link to="/register">Registrarse</Link>
+        </>
+      )}
 
-  {/* Si está logueado */}
-  {user && (
-    <>
-      <Link to="/mis-pedidos" style={{ marginRight: 10 }}>Mis Pedidos</Link>
-      <Link to="/info" style={{ marginRight: 10 }}>Info Cuenta</Link>
-      <button onClick={handleLogout} style={{ marginLeft: 10 }}>
-        Cerrar sesión
-      </button>
-    </>
-  )}
+      {user && (
+        <>
+          {isAdmin ? (
+            <div className="navbar-dropdown">
+              <button onClick={toggleAdminMenu}>Admin ▼</button>
+              {adminMenuOpen && (
+                <div className="dropdown-menu">
+                  <Link to="/mis-pedidos">Mis pedidos</Link>
+                  <Link to="/admin/pedidos">Ver todos los pedidos</Link>
+                  <Link to="/Product">Producto</Link>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link to="/mis-pedidos">Mis pedidos</Link>
+          )}
 
-  {/* Si es admin */}
-  {user?.email === 'maxiblanc240801@gmail.com' && (
-    <>
-      <Link to="/Product" style={{ marginLeft: 10 }}>Producto</Link>
-      <Link to="/admin/pedidos" style={{ marginLeft: 10 }}>Ver todos los pedidos</Link>
-    </>
-  )}
-</nav>
-
+          <div className="navbar-dropdown">
+            <button onClick={toggleUserMenu}>Cuenta ▼</button>
+            {userMenuOpen && (
+              <div className="dropdown-menu">
+                <Link to="/info">Info cuenta</Link>
+                <button onClick={handleLogout}>Cerrar sesión</button>
+              </div>
+            )}
+          </div>
+        </>
+      )}
+    </nav>
   );
 }
