@@ -2,6 +2,7 @@
 import { Link } from 'react-router-dom';
 import { auth } from '../firebase/firebaseconfig';
 import { useEffect, useState } from 'react';
+import './Navbar.css'
 
 export default function Navbar() {
   const [user, setUser] = useState(null);
