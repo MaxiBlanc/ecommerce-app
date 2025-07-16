@@ -77,7 +77,7 @@ export default function ProductList() {
           <option value="">Ordenar por...</option>
           <option value="precioAsc">Precio: Menor a mayor</option>
           <option value="precioDesc">Precio: Mayor a menor</option>
-          <option value="fechaDesc">Más nuevos</option>
+          <option value="fechaAsc">Más nuevos</option>
         </select>
 
         <select onChange={e => setTipoFiltro(e.target.value)} defaultValue="">
