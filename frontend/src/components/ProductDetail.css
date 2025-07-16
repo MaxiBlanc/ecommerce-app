@@ -11,8 +11,8 @@
 
 .product-detail-images {
   position: relative;
-  width: 300px;        /* Tamaño fijo */
-  height: 300px;       /* Tamaño fijo, cuadrado */
+  width: 500px;        /* Tamaño fijo */
+  height: 500px;       /* Tamaño fijo, cuadrado */
   margin-right: 2rem;
 }
 
