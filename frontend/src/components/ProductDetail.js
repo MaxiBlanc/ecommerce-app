@@ -55,21 +55,28 @@ export default function ProductDetail() {
 
 return (
   <div className="product-detail-container">
-    <div className="product-detail-images">
-      <div className="carousel">
+<div className="product-detail-images">
+  <button
+    onClick={() => setImagenActual(i => (i - 1 + producto.imageUrls.length) % producto.imageUrls.length)}
+    className="carousel-arrow left"
+  >
+    ◀
+  </button>
+
   <img
     src={producto.imageUrls[imagenActual]}
-    alt={`Imagen ${imagenActual + 1}`}
+    alt={`${producto.name} ${imagenActual + 1}`}
     className="carousel-image"
   />
-  {producto.imageUrls.length > 1 && (
-    <div className="carousel-buttons">
-      <button onClick={() => cambiarImagen(-1)}>⬅️</button>
-      <button onClick={() => cambiarImagen(1)}>➡️</button>
-    </div>
-  )}
+
+  <button
+    onClick={() => setImagenActual(i => (i + 1) % producto.imageUrls.length)}
+    className="carousel-arrow right"
+  >
+    ▶
+  </button>
 </div>
-    </div>
+
 
     <div className="product-detail-info">
       <h2>{producto.name}</h2>
