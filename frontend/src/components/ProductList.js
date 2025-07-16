@@ -46,8 +46,7 @@ export default function ProductList() {
     let ordenados = [...productos];
     if (orden === 'precioAsc') ordenados.sort((a, b) => a.price - b.price);
     else if (orden === 'precioDesc') ordenados.sort((a, b) => b.price - a.price);
-    else if (orden === 'fechaAsc') ordenados.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-    else if (orden === 'fechaDesc') ordenados.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    else if (orden === 'fechaDesc') ordenados.sort((a, b) => (b.createdAt?._seconds || 0) - (a.createdAt?._seconds || 0));
     return ordenados;
   };
 
@@ -77,7 +76,7 @@ export default function ProductList() {
           <option value="">Ordenar por...</option>
           <option value="precioAsc">Precio: Menor a mayor</option>
           <option value="precioDesc">Precio: Mayor a menor</option>
-          <option value="fechaAsc">Más nuevos</option>
+          <option value="fechaDesc">Más nuevos</option>
         </select>
 
         <select onChange={e => setTipoFiltro(e.target.value)} defaultValue="">
