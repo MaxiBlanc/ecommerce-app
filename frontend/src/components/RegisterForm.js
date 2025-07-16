@@ -47,7 +47,7 @@ export default function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit} className="register-form">
-      <h2>Registro</h2>
+      <h2>Registrarse</h2>
       <input 
         type="text" 
         placeholder="Nombre" 

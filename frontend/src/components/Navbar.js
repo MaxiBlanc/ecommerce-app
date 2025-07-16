@@ -27,7 +27,7 @@ export default function Navbar() {
   {/* Si NO está logueado */}
   {!user && (
     <>
-      <Link to="/register" style={{ marginRight: 10 }}>Registro</Link>
+      <Link to="/register" style={{ marginRight: 10 }}>Registrarse</Link>
       <Link to="/login" style={{ marginRight: 10 }}>Login</Link>
     </>
   )}

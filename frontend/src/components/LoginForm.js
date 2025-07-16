@@ -1,27 +1,26 @@
 import { useState, useEffect } from 'react';
-import { auth, onAuthStateChanged  } from '../firebase/firebaseconfig';
+import { auth, onAuthStateChanged } from '../firebase/firebaseconfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-
+import './LoginForm.css';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log('Usuario ya autenticado, redirigiendo...');
+        navigate('/');
+      }
+    });
 
-useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, (user) => {
-    if (user) {
-      console.log('Usuario ya autenticado, redirigiendo...');
-      navigate('/');
-    }
-  });
-
-  return () => unsubscribe();
-}, [navigate]);
+    return () => unsubscribe();
+  }, [navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -36,23 +35,20 @@ useEffect(() => {
         return setError('Debes verificar tu correo antes de iniciar sesión.');
       }
 
-      const token = await user.getIdToken(); // 👈 Obtener el token
-      localStorage.setItem('token', token); // 👈 Guardarlo
+      const token = await user.getIdToken();
+      localStorage.setItem('token', token);
 
       setSuccess(`Bienvenido, ${user.displayName || user.email}`);
       setEmail('');
       setPassword('');
-navigate('/');
-
-      // Redireccionar si querés
-      // window.location.href = '/mis-pedidos';
+      navigate('/');
     } catch (err) {
       setError('Email o contraseña incorrectos');
     }
   };
 
   return (
-    <form onSubmit={handleLogin} style={{ maxWidth: 300, margin: 'auto' }}>
+    <form onSubmit={handleLogin} className="login-form">
       <h2>Iniciar sesión</h2>
       <input
         type="email"
@@ -69,8 +65,8 @@ navigate('/');
         required
       />
       <button type="submit">Entrar</button>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {success && <p style={{ color: 'green' }}>{success}</p>}
+      {error && <p className="error">{error}</p>}
+      {success && <p className="success">{success}</p>}
     </form>
   );
 }
