@@ -1,6 +1,6 @@
-// src/components/UserInfo.js
 import { useEffect, useState } from 'react';
 import { auth } from '../firebase/firebaseconfig';
+import './UserInfo.css';
 
 export default function UserInfo() {
   const [user, setUser] = useState(null);
@@ -12,10 +12,17 @@ export default function UserInfo() {
     return () => unsubscribe();
   }, []);
 
-  if (!user) return <p>No estás logueado.</p>;
+  if (!user) {
+    return (
+      <div className="user-card">
+        <p>No estás logueado.</p>
+      </div>
+    );
+  }
 
   return (
-    <div>
+    <div className="user-card">
+      <h2>Mi Cuenta</h2>
       <p><strong>Nombre:</strong> {user.displayName || 'Sin nombre'}</p>
       <p><strong>Email:</strong> {user.email}</p>
       <p><strong>Email verificado:</strong> {user.emailVerified ? 'Sí' : 'No'}</p>
