@@ -58,8 +58,8 @@ return (
     </div>
 
     <div className="product-detail-info">
-      <h2>{producto.name}</h2>
-      <p className="product-detail-description">{producto.description}  -  ${producto.price}</p>
+      <h2>{producto.name}  -  ${producto.price}</h2>
+      <p className="product-detail-description">{producto.description}</p>
 
       <div className="product-detail-sizes">
         <label htmlFor="size-select">Talla:</label>
