@@ -77,7 +77,7 @@ return (
 
     <div className="product-detail-info">
       <h2>{producto.name}</h2>
-      <h3>${producto.price}</h3>
+      <h3 className='product-detail-price'>${producto.price}</h3>
       <p className="product-detail-description">{producto.description}</p>
 
       <div className="product-detail-sizes">
