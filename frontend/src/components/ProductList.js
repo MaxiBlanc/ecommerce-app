@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { getDocs, collection } from 'firebase/firestore';
 import { db } from '../firebase/firebaseconfig';
-
+import './ProductList.css';
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
@@ -12,32 +12,26 @@ export default function ProductList() {
   const [imageIndices, setImageIndices] = useState({});
   const [tipos, setTipos] = useState([]);
 
-
   useEffect(() => {
     fetchProductos();
   }, []);
+
   useEffect(() => {
-  const obtenerTipos = async () => {
-    try {
-      const res = await getDocs(collection(db, 'products'));
-      const tiposSet = new Set();
-
-      res.forEach(doc => {
-        const data = doc.data();
-        if (data.type) {
-          tiposSet.add(data.type);
-        }
-      });
-
-      setTipos([...tiposSet]);
-    } catch (error) {
-      console.error('Error obteniendo tipos:', error);
-    }
-  };
-
-  obtenerTipos();
-}, []);
-
+    const obtenerTipos = async () => {
+      try {
+        const res = await getDocs(collection(db, 'products'));
+        const tiposSet = new Set();
+        res.forEach(doc => {
+          const data = doc.data();
+          if (data.type) tiposSet.add(data.type);
+        });
+        setTipos([...tiposSet]);
+      } catch (error) {
+        console.error('Error obteniendo tipos:', error);
+      }
+    };
+    obtenerTipos();
+  }, []);
 
   const fetchProductos = async () => {
     try {
@@ -75,10 +69,10 @@ export default function ProductList() {
   const productosAMostrar = ordenarProductos(filtrarPorTipo(products));
 
   return (
-    <div style={{ maxWidth: 800, margin: 'auto' }}>
+    <div className="product-list-container">
       <h2>Productos</h2>
 
-      <div style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
+      <div className="filters">
         <select onChange={e => setOrden(e.target.value)} defaultValue="">
           <option value="">Ordenar por...</option>
           <option value="precioAsc">Precio: Menor a mayor</option>
@@ -87,61 +81,46 @@ export default function ProductList() {
         </select>
 
         <select onChange={e => setTipoFiltro(e.target.value)} defaultValue="">
-  <option value="">Filtrar por tipo...</option>
-  {tipos.map(tipo => (
-    <option key={tipo} value={tipo}>{tipo}</option>
-  ))}
-</select>
-
+          <option value="">Filtrar por tipo...</option>
+          {tipos.map(tipo => (
+            <option key={tipo} value={tipo}>{tipo}</option>
+          ))}
+        </select>
       </div>
 
       {productosAMostrar.length === 0 ? (
         <p>No hay productos para mostrar</p>
       ) : (
-        <ul style={{ listStyle: 'none', padding: 0 }}>
+        <div className="product-grid">
           {productosAMostrar.map(p => {
             const imgIndex = imageIndices[p.id] || 0;
-            const hasImages = Array.isArray(p.imageUrls) && p.imageUrls.length > 0;
-            const currentImg = hasImages ? p.imageUrls[imgIndex] : null;
+            const currentImg = p.imageUrls?.[imgIndex];
 
             return (
-              <li key={p.id} style={{ marginBottom: 30, borderBottom: '1px solid #ccc', paddingBottom: 20 }}>
-                <h3>{p.name}</h3>
-                <p><strong>Precio:</strong> ${p.price}</p>
-                <p><strong>Tipo:</strong> {p.type}</p>
-
-                {currentImg ? (
-                  <div>
-                    <img src={currentImg} alt={p.name} style={{ maxWidth: 200, height: 'auto' }} />
-                    {p.imageUrls.length > 1 && (
-                      <div style={{ marginTop: 10 }}>
-                        <button onClick={() => handleImageChange(p.id, 'prev', p.imageUrls.length)}>◀️</button>
-                        <button onClick={() => handleImageChange(p.id, 'next', p.imageUrls.length)}>▶️</button>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <p>Sin imagen</p>
-                )}
-
-                <Link
-                  to={`/producto/${p.id}`}
-                  style={{
-                    display: 'inline-block',
-                    marginTop: 10,
-                    backgroundColor: '#007bff',
-                    color: 'white',
-                    padding: '5px 10px',
-                    borderRadius: 4,
-                    textDecoration: 'none'
-                  }}
-                >
-                  Ver detalle
-                </Link>
-              </li>
+              <div key={p.id} className="product-card">
+                <div className="image-wrapper">
+                  {currentImg && (
+                    <>
+                      <img src={currentImg} alt={p.name} />
+                      {p.imageUrls.length > 1 && (
+                        <>
+                          <button className="arrow left" onClick={() => handleImageChange(p.id, 'prev', p.imageUrls.length)}>◀</button>
+                          <button className="arrow right" onClick={() => handleImageChange(p.id, 'next', p.imageUrls.length)}>▶</button>
+                        </>
+                      )}
+                    </>
+                  )}
+                </div>
+                <div className="info">
+                  <h3>{p.name}</h3>
+                  <p className="price">${p.price}</p>
+                  <p className="type">{p.type}</p>
+                  <Link to={`/producto/${p.id}`}>Ver detalle</Link>
+                </div>
+              </div>
             );
           })}
-        </ul>
+        </div>
       )}
     </div>
   );
