@@ -84,35 +84,6 @@ export default function Cart() {
     setCarrito(actualizado);
     localStorage.setItem('carrito', JSON.stringify(actualizado));
   };
-const actualizarEnvioEnCarrito = (sucursal) => {
-  if (!sucursal) {
-    // Si no hay sucursal seleccionada, eliminamos el envío del carrito
-    let carritoActual = JSON.parse(localStorage.getItem('carrito')) || [];
-    carritoActual = carritoActual.filter(item => !item.id.startsWith('envio-'));
-    localStorage.setItem('carrito', JSON.stringify(carritoActual));
-    setCarrito(carritoActual);
-    return;
-  }
-
-  const envioId = `envio-${sucursal.id}`;
-
-  let carritoActual = JSON.parse(localStorage.getItem('carrito')) || [];
-  // Eliminar envío previo si existe
-  carritoActual = carritoActual.filter(item => !item.id.startsWith('envio-'));
-
-  // Agregar envío nuevo
-  carritoActual.push({
-    id: envioId,
-    name: `Envío a ${sucursal.name}`,
-    price: sucursal.price,
-    cantidad: 1,
-    size: null,
-    imageUrls: [],
-  });
-
-  localStorage.setItem('carrito', JSON.stringify(carritoActual));
-  setCarrito(carritoActual);
-};
 
   const eliminarProducto = (id, talla) => {
     const filtrado = carrito.filter(item => !(item.id === id && item.size?.talla === talla));
@@ -141,19 +112,23 @@ const actualizarEnvioEnCarrito = (sucursal) => {
       return;
     }
 
-const items = carrito
-  .filter(product => product.size !== null) // filtrar solo los que tienen talle
-  .map(product => ({
-    title: product.name,
-    unit_price: Number(product.price),
-    quantity: Number(product.cantidad),
-    currency_id: 'ARS',
-    productId: product.id,
-    talla: product.size?.talla || 'N/A',
-    name: product.name,
-    price: product.price
-  }));
-
+    const items = carrito.map(product => ({
+      title: product.name,
+      unit_price: Number(product.price),
+      quantity: Number(product.cantidad),
+      currency_id: 'ARS',
+      productId: product.id,
+      talla: product.size?.talla || 'N/A',
+      name: product.name,
+      price: product.price
+    }
+  ),
+  {
+    title: "Costo de envío",
+    unit_price: shippingCost,
+    quantity: 1,
+    currency_id: "ARS"
+  });
 
     const payload = {
       items,
@@ -273,7 +248,6 @@ const items = carrito
             onChange={(e) => {
               const suc = sucursalesFiltradas.find(s => s.id === e.target.value);
               setSucursalSeleccionada(suc || null);
-              actualizarEnvioEnCarrito(suc || null);
             }}
             disabled={!provinciaSeleccionada}
           >
