@@ -22,7 +22,7 @@ export default function Cart() {
       .then(res => res.json())
       .then(data => setSucursales(data))
       .catch(console.error);
-      console.log('Todas las sucursales:', data); // <--- Acá ves todo lo que trae
+      console.log('Todas las sucursales:', sucursales); // <--- Acá ves todo lo que trae
   }, []);
 
   useEffect(() => {
