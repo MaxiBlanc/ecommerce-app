@@ -223,7 +223,7 @@ export default function Cart() {
               setProvinciaSeleccionada(e.target.value);
                console.log('Todas las sucursales:', data); // <--- Acá ves todo lo que trae
               setSucursalSeleccionada(null);
-            }}
+            }} 
           >
             <option value="">Selecciona provincia</option>
             {provincias.map(p => (
