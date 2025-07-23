@@ -63,8 +63,9 @@ export default function Cart() {
   }, []);
 
   // Filtrar sucursales según provincia seleccionada
+  console.log(sucursales);
   const sucursalesFiltradas = sucursales.filter(
-    s => s.provinciaId === provinciaSeleccionada
+    s => s.provincia_id === provinciaSeleccionada
   );
 
   const precioSucursal = sucursalSeleccionada ? sucursalSeleccionada.price : 0;
