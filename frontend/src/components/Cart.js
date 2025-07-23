@@ -18,7 +18,7 @@ export default function Cart() {
       .catch(console.error);
 
     // Cargar todas las sucursales
-    fetch('https://ecommerce-app-0bh1.onrender.com/api/provincias')
+    fetch('https://ecommerce-app-0bh1.onrender.com/api/sucursales')
       .then(res => res.json())
       .then(data => setSucursales(data))
       .catch(console.error);
@@ -62,11 +62,10 @@ export default function Cart() {
     sincronizarCarritoConStock();
   }, []);
 
-  // Filtrar sucursales según provincia seleccionada
-  console.log(sucursales);
   const sucursalesFiltradas = sucursales.filter(
-    s => s.provincia_id === provinciaSeleccionada
+    s => s.provinciaId === provinciaSeleccionada
   );
+  // Filtrar sucursales según provincia seleccionada
 
   const precioSucursal = sucursalSeleccionada ? sucursalSeleccionada.price : 0;
 
