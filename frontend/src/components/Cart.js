@@ -112,22 +112,25 @@ export default function Cart() {
       return;
     }
 
-    const items = carrito.map(product => ({
-      title: product.name,
-      unit_price: Number(product.price),
-      quantity: Number(product.cantidad),
-      currency_id: 'ARS',
-      productId: product.id,
-      talla: product.size?.talla || 'N/A',
-      name: product.name,
-      price: product.price
-    },{
+const items = [
+  ...carrito.map(product => ({
+    title: product.name,
+    unit_price: Number(product.price),
+    quantity: Number(product.cantidad),
+    currency_id: 'ARS',
+    productId: product.id,
+    talla: product.size?.talla || 'N/A',
+    name: product.name,
+    price: product.price
+  })),
+  {
     title: "Costo de envío",
     unit_price: sucursalSeleccionada.price,
     quantity: 1,
     currency_id: "ARS"
   }
-  ));
+];
+
 
     const payload = {
       items,
