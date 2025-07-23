@@ -47,6 +47,7 @@ export default function Navbar() {
                   <Link to="/mis-pedidos">Mis pedidos</Link>
                   <Link to="/admin/pedidos">Ver todos los pedidos</Link>
                   <Link to="/Product">Producto</Link>
+                  <Link to="/admin/sucursales">Sucursales</Link>
                 </div>
               )}
             </div>

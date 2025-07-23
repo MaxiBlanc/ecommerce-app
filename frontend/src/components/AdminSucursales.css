@@ -1,0 +1,73 @@
+.admin-sucursales-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  background-color: #f1f3f55e;
+  border: 1px solid #dee2e6;
+  border-radius: 12px;
+  padding: 1.5rem;
+  color: #212529;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.admin-sucursales-container h2,
+.admin-sucursales-container h3 {
+  color: #343a40;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.admin-sucursales-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.admin-sucursales-form input,
+.admin-sucursales-form select {
+  padding: 0.6rem;
+  font-size: 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background-color: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-sucursales-form input:focus,
+.admin-sucursales-form select:focus {
+  border-color: #343a40;
+  box-shadow: 0 0 0 2px rgba(52, 58, 64, 0.2);
+  outline: none;
+}
+
+.admin-sucursales-form button {
+  padding: 0.6rem;
+  font-size: 1rem;
+  background-color: #343a40;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.admin-sucursales-form button:hover {
+  background-color: #495057;
+}
+
+.admin-sucursales-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+  color: #495057;
+  font-size: 1rem;
+  border-radius: 6px;
+}
+
+.admin-sucursales-list li {
+  background-color: #dee2e6;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}

@@ -12,6 +12,7 @@ import MisPedidos from './components/MisPedidos';
 import TodosLosPedidos from './components/TodosLosPedidos';
 import RequireAuth from './components/RequireAuth';
 import RequireAdmin from './components/RequireAdmin';
+import AdminSucursales from './components/AdminSucursales';
 
 
 function App() {
@@ -42,6 +43,9 @@ function App() {
         } />
         <Route path="/Product" element={
           <RequireAdmin><ProductAdmin /></RequireAdmin>
+        } />
+        <Route path="/admin/sucursales" element={
+          <RequireAdmin><AdminSucursales /></RequireAdmin>
         } />
         </Routes>
       </div>
