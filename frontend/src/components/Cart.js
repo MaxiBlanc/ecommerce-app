@@ -12,13 +12,13 @@ export default function Cart() {
 
   useEffect(() => {
     // Cargar provincias (reemplaza URL con tu fuente real)
-    fetch('/api/provincias')
+    fetch('https://ecommerce-app-0bh1.onrender.com/api/provincias')
       .then(res => res.json())
       .then(data => setProvincias(data))
       .catch(console.error);
 
     // Cargar todas las sucursales
-    fetch('/api/sucursales')
+    fetch('https://ecommerce-app-0bh1.onrender.com/api/provincias')
       .then(res => res.json())
       .then(data => setSucursales(data))
       .catch(console.error);
@@ -64,7 +64,7 @@ export default function Cart() {
 
   // Filtrar sucursales según provincia seleccionada
   const sucursalesFiltradas = sucursales.filter(
-    s => s.provinciaId === provinciaSeleccionada
+    s => s.provincia.id === provinciaSeleccionada
   );
 
   const precioSucursal = sucursalSeleccionada ? sucursalSeleccionada.price : 0;
