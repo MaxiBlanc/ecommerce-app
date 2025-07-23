@@ -85,7 +85,7 @@ export default function MisPedidos() {
             <ul className="pedido-productos">
               {p.products.map((prod, i) => (
                 <li key={i}>
-                  {prod.title} - Talla: {prod.talla} - Cant: {prod.quantity} - ${prod.unit_price}
+                  {prod.title} - {prod.talla} - Cant: {prod.quantity} - ${prod.unit_price}
                 </li>
               ))}
             </ul>
