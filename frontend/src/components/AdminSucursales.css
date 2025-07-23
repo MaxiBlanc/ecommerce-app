@@ -51,7 +51,7 @@
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
-
+ 
 .admin-sucursales-form button:hover {
   background-color: #495057;
 }
@@ -70,4 +70,16 @@
   padding: 0.6rem 1rem;
   border-radius: 6px;
   margin-bottom: 0.5rem;
+
+  display: flex;              /* 🔑 Hace que todo esté en una línea */
+  justify-content: space-between; /* 🔑 Separa el texto de los botones */
+  align-items: center;        /* Centra verticalmente */
+}
+
+.admin-sucursales-list button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
 }

@@ -164,11 +164,11 @@ export default function AdminSucursales() {
       <h3>Sucursales Existentes</h3>  
       <ul className="admin-sucursales-list">
         {sucursales.map(s => (
-          <li className="flex justify-between items-center" key={s.id}>
+          <li key={s.id}>
             {s.name} - Provincia: {provincias.find(p => p.id === s.provincia.id)?.name || 'N/A'} - Precio: ${s.price}
-            <button className="btn-admin btn-admin-edit" onClick={() => handleEditSucursal(s)}>✏️</button>
-            <button className="btn-admin btn-admin-delete" onClick={() => handleDeleteSucursal(s.id)}>🗑️</button>
-          </li>
+            <button onClick={() => handleEdit(p)} style={{ marginRight: 10 }}>✏️</button>
+            <button onClick={() => handleDelete(p.id)}>🗑️</button>
+            </li>
         ))}
       </ul>
     </div>
