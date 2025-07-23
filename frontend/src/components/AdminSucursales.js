@@ -20,7 +20,7 @@ export default function AdminSucursales() {
 
   const fetchProvincias = async () => {
     try {
-      const res = await axios.get('https://tu-api.com/provincias');
+      const res = await axios.get('https://ecommerce-app-0bh1.onrender.com/api/provincias');
       setProvincias(res.data);
     } catch (error) {
       alert('Error al cargar provincias');
@@ -29,7 +29,7 @@ export default function AdminSucursales() {
 
   const fetchSucursales = async () => {
     try {
-      const res = await axios.get('https://tu-api.com/sucursales');
+      const res = await axios.get('https://ecommerce-app-0bh1.onrender.com/api/sucursales');
       setSucursales(res.data);
     } catch (error) {
       alert('Error al cargar sucursales');
@@ -40,7 +40,7 @@ export default function AdminSucursales() {
     e.preventDefault();
     if (!provinciaNombre.trim()) return alert('Ingresá nombre de provincia');
     try {
-      await axios.post('https://tu-api.com/provincias', { nombre: provinciaNombre });
+      await axios.post('https://ecommerce-app-0bh1.onrender.com/api/provincias', { nombre: provinciaNombre });
       setProvinciaNombre('');
       fetchProvincias();
       alert('Provincia creada');
@@ -56,7 +56,7 @@ export default function AdminSucursales() {
     if (!sucursalPrecio || isNaN(Number(sucursalPrecio))) return alert('Ingresá un precio válido');
 
     try {
-      await axios.post('https://tu-api.com/sucursales', {
+      await axios.post('https://ecommerce-app-0bh1.onrender.com/api/sucursales', {
         provinciaId: sucursalProvinciaId,
         nombre: sucursalNombre,
         precio: Number(sucursalPrecio),
