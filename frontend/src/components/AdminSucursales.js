@@ -40,7 +40,7 @@ export default function AdminSucursales() {
     e.preventDefault();
     if (!provinciaNombre.trim()) return alert('Ingresá nombre de provincia');
     try {
-      await axios.post('https://ecommerce-app-0bh1.onrender.com/api/provincias', { nombre: provinciaNombre });
+      await axios.post('https://ecommerce-app-0bh1.onrender.com/api/provincias', { name: provinciaNombre });
       setProvinciaNombre('');
       fetchProvincias();
       alert('Provincia creada');
@@ -58,7 +58,7 @@ export default function AdminSucursales() {
     try {
       await axios.post('https://ecommerce-app-0bh1.onrender.com/api/sucursales', {
         provinciaId: sucursalProvinciaId,
-        nombre: sucursalNombre,
+        name: sucursalNombre,
         precio: Number(sucursalPrecio),
       });
       setSucursalNombre('');
