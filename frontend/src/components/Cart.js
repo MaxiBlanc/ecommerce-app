@@ -124,7 +124,7 @@ const items = [
     price: product.price
   })),
   {
-    title: "Costo de envío",
+    title: "Costo de envío a " + sucursalSeleccionada.name + ", " + provinciaSeleccionada.name,
     unit_price: sucursalSeleccionada.price,
     quantity: 1,
     currency_id: "ARS"
