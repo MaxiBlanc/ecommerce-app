@@ -124,7 +124,7 @@ export default function AdminSucursales() {
          {console.log('Provincias:', provincias, 'Sucu: ',sucursales)}
         {sucursales.map(s => (
             <li key={s.id}>
-            {s.name} - Provincia: {provincias.find(p => p.id === s.provincia_id)?.name || 'N/A'} - Precio: ${s.price}
+            {s.name} - Provincia: {provincias.find(p => p.id === s.provincia.id)?.name || 'N/A'} - Precio: ${s.price}
           </li>
         ))}
       </ul>
