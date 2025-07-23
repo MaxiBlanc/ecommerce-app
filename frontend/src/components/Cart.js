@@ -141,71 +141,19 @@ const actualizarEnvioEnCarrito = (sucursal) => {
       return;
     }
 
-    const items = carrito.map(item => (
-  <div
-    key={`${item.id}-${item.size?.talla || 'default'}`}
-    className="cart-item"
-  >
-    <button
-      onClick={() => eliminarProducto(item.id, item.size?.talla)}
-      className="cart-delete-btn"
-      aria-label="Eliminar"
-    >
-      🗑️
-    </button>
-    {item.imageUrls?.[0] && (
-      <img
-        src={item.imageUrls[0]}
-        alt={item.name}
-        className="cart-item-image"
-      />
-    )}
-    <div className="cart-item-details">
-      <h5>{item.name}</h5>
-      <div className="cart-info">
-        {item.size === null ? (
-          // Si size es null, solo mostrar name y price (ya está el name arriba)
-          <span>Precio: ${item.price}</span>
-        ) : (
-          <>
-            <span>Talle: {item.size?.talla || 'N/A'}</span>
-            <span>Precio: ${item.price}</span>
-          </>
-        )}
-      </div>
+const items = carrito
+  .filter(product => product.size !== null) // filtrar solo los que tienen talle
+  .map(product => ({
+    title: product.name,
+    unit_price: Number(product.price),
+    quantity: Number(product.cantidad),
+    currency_id: 'ARS',
+    productId: product.id,
+    talla: product.size?.talla || 'N/A',
+    name: product.name,
+    price: product.price
+  }));
 
-      {item.size !== null && (
-        <div className="cart-quantity">
-          <button
-            className="quantity-btn"
-            onClick={() =>
-              actualizarCantidad(
-                item.id,
-                item.size?.talla,
-                Math.max(item.cantidad - 1, 1)
-              )
-            }
-          >
-            −
-          </button>
-          <span className="quantity-value">{item.cantidad}</span>
-          <button
-            className="quantity-btn"
-            onClick={() =>
-              actualizarCantidad(
-                item.id,
-                item.size?.talla,
-                Math.min(item.cantidad + 1, item.size?.stock || 1)
-              )
-            }
-          >
-            +
-          </button>
-        </div>
-      )}
-    </div>
-  </div>
-))
 
     const payload = {
       items,
