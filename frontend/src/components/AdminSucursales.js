@@ -59,7 +59,7 @@ export default function AdminSucursales() {
       await axios.post('https://ecommerce-app-0bh1.onrender.com/api/sucursales', {
         provinciaId: sucursalProvinciaId,
         name: sucursalNombre,
-        precio: Number(sucursalPrecio),
+        price: Number(sucursalPrecio),
       });
       setSucursalNombre('');
       setSucursalPrecio('');
