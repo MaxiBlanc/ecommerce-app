@@ -22,6 +22,7 @@ export default function Cart() {
       .then(res => res.json())
       .then(data => setSucursales(data))
       .catch(console.error);
+      console.log('Todas las sucursales:', data); // <--- Acá ves todo lo que trae
   }, []);
 
   useEffect(() => {
@@ -219,9 +220,7 @@ export default function Cart() {
           <select
             value={provinciaSeleccionada}
             onChange={(e) => {
-              console.log('Provincia seleccionada:', provinciaObj);
               setProvinciaSeleccionada(e.target.value);
-               console.log('Todas las sucursales:', data); // <--- Acá ves todo lo que trae
               setSucursalSeleccionada(null);
             }} 
           >
