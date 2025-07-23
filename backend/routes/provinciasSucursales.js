@@ -30,6 +30,7 @@ router.post('/provincias', async (req, res) => {
 
 // Listar provincias
 router.get('/provincias', async (req, res) => {
+     console.log('GET /provincias llamada');
   try {
     const snapshot = await db.collection('provincias').get();
     const provincias = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
