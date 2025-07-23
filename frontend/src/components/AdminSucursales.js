@@ -166,8 +166,10 @@ export default function AdminSucursales() {
         {sucursales.map(s => (
           <li key={s.id}>
             {s.name} - Provincia: {provincias.find(p => p.id === s.provincia.id)?.name || 'N/A'} - Precio: ${s.price}
-            <button onClick={() => handleEditSucursal(s)}>✏️</button>
+            <div>
+            <button onClick={() => handleEditSucursal(s)} style={{ marginRight: 10 }}>✏️</button>
             <button onClick={() => handleDeleteSucursal(s.id)}>🗑️</button>
+            </div>
           </li>
         ))}
       </ul>
