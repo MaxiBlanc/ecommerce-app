@@ -5,7 +5,7 @@ const { db } = require('../firebase');
 // Crear pedido sin autenticación
 router.post('/', async (req, res) => {
   try {
-    const { products, totalAmount, customerName, customerEmail } = req.body;
+    const { products, totalAmount, customerName, customerEmail, provincia, sucursal, precioSucursal } = req.body;
 
     if (!products || !Array.isArray(products) || products.length === 0) {
       return res.status(400).json({ message: 'El pedido debe tener productos' });
@@ -15,6 +15,9 @@ router.post('/', async (req, res) => {
     }
     if (!totalAmount || totalAmount <= 0) {
       return res.status(400).json({ message: 'Monto total inválido' });
+    }
+    if (!provincia || !sucursal) {
+      return res.status(400).json({ message: 'Faltan provincia o sucursal' });
     }
 
     const batch = db.batch();
@@ -51,6 +54,9 @@ router.post('/', async (req, res) => {
       totalAmount,
       customerName,
       customerEmail,
+      provincia,
+      sucursal,
+      precioSucursal,
       status: 'pendiente',
       createdAt: new Date()
     };
@@ -58,7 +64,6 @@ router.post('/', async (req, res) => {
     const orderRef = db.collection('orders').doc();
     batch.set(orderRef, newOrder);
 
-    // Si querés vaciar un carrito, usá el email como ID del doc
     const cartRef = db.collection('carts').doc(customerEmail);
     batch.set(cartRef, { products: [] });
 
