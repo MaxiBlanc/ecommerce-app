@@ -123,7 +123,7 @@ export default function AdminSucursales() {
       <ul className="admin-sucursales-list">
         {sucursales.map(s => (
           <li key={s.id}>
-            {s.name} - Provincia: {provincias.find(p => p.id === s.provinciaId)?.name || 'N/A'} - Precio: ${s.price}
+            {s.name} - Provincia: {provincias.find(p => p.id === s.provincia_id)?.name || 'N/A'} - Precio: ${s.price}
           </li>
         ))}
       </ul>
