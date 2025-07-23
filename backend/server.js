@@ -8,15 +8,13 @@ const PORT = process.env.PORT || 5000;
 const uploadRouter = require('./routes/upload');
 const cors = require('cors');
 
-app.use(cors({
-  origin: '*', // o si quieres limitarlo: 'https://ecommerce-app-f.netlify.app'
-}));
+const corsOptions = {
+  origin: 'https://ecommerce-app-f.netlify.app', // o '*' para permitir todos
+};
 
+app.use(cors(corsOptions));
 app.use(express.json());
 
-
-app.use(cors());
-app.use(express.json());
 
 const mercadoPagoRoutes = require('./routes/mercadopago');
 app.use('/mercadopago', mercadoPagoRoutes);
