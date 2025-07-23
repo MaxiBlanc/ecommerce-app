@@ -112,6 +112,9 @@ export default function Cart() {
       return;
     }
 
+    const provinciaObj = provincias.find(p => p.id === provinciaSeleccionada);
+
+
 const items = [
   ...carrito.map(product => ({
     title: product.name,
@@ -124,7 +127,7 @@ const items = [
     price: product.price
   })),
   {
-    title: "Costo de envío a " + sucursalSeleccionada.name + ", " + provinciaSeleccionada.name,
+    title: "Costo de envío a " + sucursalSeleccionada.name + ", " + provinciaObj.name,
     unit_price: sucursalSeleccionada.price,
     quantity: 1,
     currency_id: "ARS"
