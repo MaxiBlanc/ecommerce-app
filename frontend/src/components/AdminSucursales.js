@@ -30,6 +30,7 @@ export default function AdminSucursales() {
   const fetchSucursales = async () => {
     try {
       const res = await axios.get('https://ecommerce-app-0bh1.onrender.com/api/sucursales');
+      console.log('Sucursales recibidas:', res.data); // <-- ACA ESTÁ EL CONSOLE.LOG
       setSucursales(res.data);
     } catch (error) {
       alert('Error al cargar sucursales');
@@ -121,9 +122,8 @@ export default function AdminSucursales() {
 
       <h3>Sucursales Existentes</h3>  
       <ul className="admin-sucursales-list">
-         {console.log('Provincias:', provincias, 'Sucu: ',sucursales)}
         {sucursales.map(s => (
-            <li key={s.id}>
+          <li key={s.id}>
             {s.name} - Provincia: {provincias.find(p => p.id === s.provincia.id)?.name || 'N/A'} - Precio: ${s.price}
           </li>
         ))}

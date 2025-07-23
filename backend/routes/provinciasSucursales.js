@@ -93,4 +93,54 @@ router.get('/sucursales', async (req, res) => {
   }
 });
 
+
+router.delete('/provincias/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await db.collection('provincias').doc(id).delete();
+    res.status(200).json({ message: 'Provincia eliminada' });
+  } catch (error) {
+    console.error('Error eliminando provincia:', error);
+    res.status(500).json({ error: 'Error eliminando provincia' });
+  }
+});
+router.put('/provincias/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name } = req.body;
+    if (!name) return res.status(400).json({ error: 'El nombre es obligatorio' });
+
+    await db.collection('provincias').doc(id).update({ name });
+    res.status(200).json({ message: 'Provincia actualizada' });
+  } catch (error) {
+    console.error('Error actualizando provincia:', error);
+    res.status(500).json({ error: 'Error actualizando provincia' });
+  }
+});
+router.delete('/sucursales/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await db.collection('sucursales').doc(id).delete();
+    res.status(200).json({ message: 'Sucursal eliminada' });
+  } catch (error) {
+    console.error('Error eliminando sucursal:', error);
+    res.status(500).json({ error: 'Error eliminando sucursal' });
+  }
+});
+router.put('/sucursales/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, price, provinciaId } = req.body;
+    if (!name || price === undefined || !provinciaId) {
+      return res.status(400).json({ error: 'Faltan datos obligatorios' });
+    }
+
+    await db.collection('sucursales').doc(id).update({ name, price, provinciaId });
+    res.status(200).json({ message: 'Sucursal actualizada' });
+  } catch (error) {
+    console.error('Error actualizando sucursal:', error);
+    res.status(500).json({ error: 'Error actualizando sucursal' });
+  }
+});
+
 module.exports = router;
