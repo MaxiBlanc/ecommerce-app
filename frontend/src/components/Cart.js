@@ -63,7 +63,7 @@ export default function Cart() {
   }, []);
 
   const sucursalesFiltradas = sucursales.filter(
-    s => s.provinciaId === provinciaSeleccionada
+    s => s.provincia_id === provinciaSeleccionada
   );
   // Filtrar sucursales según provincia seleccionada
 
@@ -219,7 +219,9 @@ export default function Cart() {
           <select
             value={provinciaSeleccionada}
             onChange={(e) => {
+              console.log('Provincia seleccionada:', provinciaObj);
               setProvinciaSeleccionada(e.target.value);
+               console.log('Todas las sucursales:', data); // <--- Acá ves todo lo que trae
               setSucursalSeleccionada(null);
             }}
           >
