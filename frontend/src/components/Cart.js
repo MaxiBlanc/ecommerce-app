@@ -141,7 +141,7 @@ const actualizarEnvioEnCarrito = (sucursal) => {
       return;
     }
 
-{carrito.map(item => (
+    const items = carrito.map(item => (
   <div
     key={`${item.id}-${item.size?.talla || 'default'}`}
     className="cart-item"
@@ -205,8 +205,7 @@ const actualizarEnvioEnCarrito = (sucursal) => {
       )}
     </div>
   </div>
-))}
-
+))
 
     const payload = {
       items,
