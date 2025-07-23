@@ -125,7 +125,7 @@ export default function Cart() {
   ),
   {
     title: "Costo de envío",
-    unit_price: shippingCost,
+    unit_price: sucursalSeleccionada.price,
     quantity: 1,
     currency_id: "ARS"
   });
