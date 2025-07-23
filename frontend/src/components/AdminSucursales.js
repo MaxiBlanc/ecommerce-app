@@ -155,8 +155,8 @@ export default function AdminSucursales() {
         {provincias.map(p => (
           <li key={p.id}>
             {p.name}
-            <button className="btn-admin btn-admin-edit" onClick={() => handleEditProvincia(p)}>Editar</button>
-            <button className="btn-admin btn-admin-delete" onClick={() => handleDeleteProvincia(p.id)}>Eliminar</button>
+            <button className="btn-admin btn-admin-edit" onClick={() => handleEditProvincia(p)}>✏️</button>
+            <button className="btn-admin btn-admin-delete" onClick={() => handleDeleteProvincia(p.id)}>🗑️</button>
           </li>
         ))}
       </ul>
@@ -164,10 +164,10 @@ export default function AdminSucursales() {
       <h3>Sucursales Existentes</h3>  
       <ul className="admin-sucursales-list">
         {sucursales.map(s => (
-          <li key={s.id}>
+          <li className="flex justify-between items-center" key={s.id}>
             {s.name} - Provincia: {provincias.find(p => p.id === s.provincia.id)?.name || 'N/A'} - Precio: ${s.price}
-            <button className="btn-admin btn-admin-edit" onClick={() => handleEditSucursal(s)}>Editar</button>
-            <button className="btn-admin btn-admin-delete" onClick={() => handleDeleteSucursal(s.id)}>Eliminar</button>
+            <button className="btn-admin btn-admin-edit" onClick={() => handleEditSucursal(s)}>✏️</button>
+            <button className="btn-admin btn-admin-delete" onClick={() => handleDeleteSucursal(s.id)}>🗑️</button>
           </li>
         ))}
       </ul>
