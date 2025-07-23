@@ -155,8 +155,10 @@ export default function AdminSucursales() {
         {provincias.map(p => (
           <li key={p.id}>
             {p.name}
+            <div>
             <button className="btn-admin btn-admin-edit" onClick={() => handleEditProvincia(p)}>✏️</button>
             <button className="btn-admin btn-admin-delete" onClick={() => handleDeleteProvincia(p.id)}>🗑️</button>
+            </div>
           </li>
         ))}
       </ul>
