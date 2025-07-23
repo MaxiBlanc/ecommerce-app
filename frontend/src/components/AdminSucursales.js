@@ -121,7 +121,7 @@ export default function AdminSucursales() {
 
       <h3>Sucursales Existentes</h3>  
       <ul className="admin-sucursales-list">
-         {console.log('Sucursales:', sucursales)}
+         {console.log('Provincias:', provincias)}
         {sucursales.map(s => (
             <li key={s.id}>
             {s.name} - Provincia: {provincias.find(p => p.id === s.provincia_id)?.name || 'N/A'} - Precio: ${s.price}
