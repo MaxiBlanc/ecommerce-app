@@ -23,7 +23,7 @@ export default function Cart() {
       .then(data => setSucursales(data))
       .catch(console.error);
       console.log('Todas las sucursales:', sucursales); // <--- Acá ves todo lo que trae
-  }, []);
+  },  [sucursales]);
 
   useEffect(() => {
     const sincronizarCarritoConStock = async () => {
