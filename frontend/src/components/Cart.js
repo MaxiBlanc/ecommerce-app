@@ -84,6 +84,35 @@ export default function Cart() {
     setCarrito(actualizado);
     localStorage.setItem('carrito', JSON.stringify(actualizado));
   };
+const actualizarEnvioEnCarrito = (sucursal) => {
+  if (!sucursal) {
+    // Si no hay sucursal seleccionada, eliminamos el envío del carrito
+    let carritoActual = JSON.parse(localStorage.getItem('carrito')) || [];
+    carritoActual = carritoActual.filter(item => !item.id.startsWith('envio-'));
+    localStorage.setItem('carrito', JSON.stringify(carritoActual));
+    setCarrito(carritoActual);
+    return;
+  }
+
+  const envioId = `envio-${sucursal.id}`;
+
+  let carritoActual = JSON.parse(localStorage.getItem('carrito')) || [];
+  // Eliminar envío previo si existe
+  carritoActual = carritoActual.filter(item => !item.id.startsWith('envio-'));
+
+  // Agregar envío nuevo
+  carritoActual.push({
+    id: envioId,
+    name: `Envío a ${sucursal.name}`,
+    price: sucursal.price,
+    cantidad: 1,
+    size: null,
+    imageUrls: [],
+  });
+
+  localStorage.setItem('carrito', JSON.stringify(carritoActual));
+  setCarrito(carritoActual);
+};
 
   const eliminarProducto = (id, talla) => {
     const filtrado = carrito.filter(item => !(item.id === id && item.size?.talla === talla));
@@ -241,6 +270,7 @@ export default function Cart() {
             onChange={(e) => {
               const suc = sucursalesFiltradas.find(s => s.id === e.target.value);
               setSucursalSeleccionada(suc || null);
+              actualizarEnvioEnCarrito(suc || null);
             }}
             disabled={!provinciaSeleccionada}
           >
