@@ -87,6 +87,7 @@ export default function AdminSucursales() {
   };
 
   const handleDeleteProvincia = async (id) => {
+    // eslint-disable-next-line no-restricted-globals
     if (confirm('¿Eliminar provincia?')) {
       await axios.delete(`https://ecommerce-app-0bh1.onrender.com/api/provincias/${id}`);
       fetchProvincias();
@@ -101,6 +102,7 @@ export default function AdminSucursales() {
   };
 
   const handleDeleteSucursal = async (id) => {
+    // eslint-disable-next-line no-restricted-globals
     if (confirm('¿Eliminar sucursal?')) {
       await axios.delete(`https://ecommerce-app-0bh1.onrender.com/api/sucursales/${id}`);
       fetchSucursales();
