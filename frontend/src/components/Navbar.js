@@ -23,7 +23,7 @@ export default function Navbar() {
   const toggleUserMenu = () => setUserMenuOpen(!userMenuOpen);
   const toggleAdminMenu = () => setAdminMenuOpen(!adminMenuOpen);
 
-  const isAdmin = user?.email === 'maxiblanc240801@gmail.com';
+  const isAdmin = user?.email === 'lachispa8mb@gmail.com';
 
   return (
     <nav className="navbar">

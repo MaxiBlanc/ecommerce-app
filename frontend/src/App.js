@@ -20,6 +20,7 @@ function App() {
     <Router>
       <div className="app-container">
         <h1>Mi App</h1>
+        <h6>Funciones de Admin: lachispa8mb@gmail.com - contraseña: Chispa12</h6>
         <Navbar />
         <Routes>
           {/* TODOS */}
