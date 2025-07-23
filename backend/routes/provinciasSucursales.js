@@ -8,6 +8,7 @@ const db = admin.firestore();
 
 // Crear provincia
 router.post('/provincias', async (req, res) => {
+    console.log('Body recibido:', req.body);
   try {
     const { name } = req.body;
     if (!name) return res.status(400).json({ error: 'El nombre es obligatorio' });
