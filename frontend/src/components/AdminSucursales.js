@@ -5,14 +5,15 @@ import './AdminSucursales.css';
 export default function AdminSucursales() {
   const [provincias, setProvincias] = useState([]);
   const [sucursales, setSucursales] = useState([]);
-  
-  // Formularios
+
   const [provinciaNombre, setProvinciaNombre] = useState('');
   const [sucursalProvinciaId, setSucursalProvinciaId] = useState('');
   const [sucursalNombre, setSucursalNombre] = useState('');
   const [sucursalPrecio, setSucursalPrecio] = useState('');
 
-  // Cargar provincias y sucursales
+  const [editProvinciaId, setEditProvinciaId] = useState(null);
+  const [editSucursalId, setEditSucursalId] = useState(null);
+
   useEffect(() => {
     fetchProvincias();
     fetchSucursales();
@@ -22,7 +23,7 @@ export default function AdminSucursales() {
     try {
       const res = await axios.get('https://ecommerce-app-0bh1.onrender.com/api/provincias');
       setProvincias(res.data);
-    } catch (error) {
+    } catch {
       alert('Error al cargar provincias');
     }
   };
@@ -30,9 +31,8 @@ export default function AdminSucursales() {
   const fetchSucursales = async () => {
     try {
       const res = await axios.get('https://ecommerce-app-0bh1.onrender.com/api/sucursales');
-      console.log('Sucursales recibidas:', res.data); // <-- ACA ESTÁ EL CONSOLE.LOG
       setSucursales(res.data);
-    } catch (error) {
+    } catch {
       alert('Error al cargar sucursales');
     }
   };
@@ -41,34 +41,69 @@ export default function AdminSucursales() {
     e.preventDefault();
     if (!provinciaNombre.trim()) return alert('Ingresá nombre de provincia');
     try {
-      await axios.post('https://ecommerce-app-0bh1.onrender.com/api/provincias', { name: provinciaNombre });
+      if (editProvinciaId) {
+        await axios.put(`https://ecommerce-app-0bh1.onrender.com/api/provincias/${editProvinciaId}`, { name: provinciaNombre });
+        setEditProvinciaId(null);
+      } else {
+        await axios.post('https://ecommerce-app-0bh1.onrender.com/api/provincias', { name: provinciaNombre });
+      }
       setProvinciaNombre('');
       fetchProvincias();
-      alert('Provincia creada');
     } catch {
-      alert('Error creando provincia');
+      alert('Error creando/actualizando provincia');
     }
   };
 
   const crearSucursal = async (e) => {
     e.preventDefault();
-    if (!sucursalProvinciaId) return alert('Seleccioná una provincia');
-    if (!sucursalNombre.trim()) return alert('Ingresá nombre de sucursal');
-    if (!sucursalPrecio || isNaN(Number(sucursalPrecio))) return alert('Ingresá un precio válido');
-
+    if (!sucursalProvinciaId || !sucursalNombre.trim() || !sucursalPrecio) return alert('Datos incompletos');
     try {
-      await axios.post('https://ecommerce-app-0bh1.onrender.com/api/sucursales', {
-        provinciaId: sucursalProvinciaId,
-        name: sucursalNombre,
-        price: Number(sucursalPrecio),
-      });
+      if (editSucursalId) {
+        await axios.put(`https://ecommerce-app-0bh1.onrender.com/api/sucursales/${editSucursalId}`, {
+          provinciaId: sucursalProvinciaId,
+          name: sucursalNombre,
+          price: Number(sucursalPrecio),
+        });
+        setEditSucursalId(null);
+      } else {
+        await axios.post('https://ecommerce-app-0bh1.onrender.com/api/sucursales', {
+          provinciaId: sucursalProvinciaId,
+          name: sucursalNombre,
+          price: Number(sucursalPrecio),
+        });
+      }
       setSucursalNombre('');
       setSucursalPrecio('');
       setSucursalProvinciaId('');
       fetchSucursales();
-      alert('Sucursal creada');
     } catch {
-      alert('Error creando sucursal');
+      alert('Error creando/actualizando sucursal');
+    }
+  };
+
+  const handleEditProvincia = (provincia) => {
+    setProvinciaNombre(provincia.name);
+    setEditProvinciaId(provincia.id);
+  };
+
+  const handleDeleteProvincia = async (id) => {
+    if (confirm('¿Eliminar provincia?')) {
+      await axios.delete(`https://ecommerce-app-0bh1.onrender.com/api/provincias/${id}`);
+      fetchProvincias();
+    }
+  };
+
+  const handleEditSucursal = (sucursal) => {
+    setSucursalNombre(sucursal.name);
+    setSucursalPrecio(sucursal.price);
+    setSucursalProvinciaId(sucursal.provincia.id);
+    setEditSucursalId(sucursal.id);
+  };
+
+  const handleDeleteSucursal = async (id) => {
+    if (confirm('¿Eliminar sucursal?')) {
+      await axios.delete(`https://ecommerce-app-0bh1.onrender.com/api/sucursales/${id}`);
+      fetchSucursales();
     }
   };
 
@@ -77,18 +112,18 @@ export default function AdminSucursales() {
       <h2>Administrar Provincias y Sucursales</h2>
 
       <form onSubmit={crearProvincia} className="admin-sucursales-form">
-        <h3>Crear Provincia</h3>
+        <h3>{editProvinciaId ? 'Editar Provincia' : 'Crear Provincia'}</h3>
         <input
           type="text"
           placeholder="Nombre provincia"
           value={provinciaNombre}
           onChange={e => setProvinciaNombre(e.target.value)}
         />
-        <button type="submit">Crear Provincia</button>
+        <button type="submit">{editProvinciaId ? 'Actualizar' : 'Crear'}</button>
       </form>
 
       <form onSubmit={crearSucursal} className="admin-sucursales-form">
-        <h3>Crear Sucursal</h3>
+        <h3>{editSucursalId ? 'Editar Sucursal' : 'Crear Sucursal'}</h3>
         <select
           value={sucursalProvinciaId}
           onChange={e => setSucursalProvinciaId(e.target.value)}
@@ -110,13 +145,17 @@ export default function AdminSucursales() {
           value={sucursalPrecio}
           onChange={e => setSucursalPrecio(e.target.value)}
         />
-        <button type="submit">Crear Sucursal</button>
+        <button type="submit">{editSucursalId ? 'Actualizar' : 'Crear'}</button>
       </form>
 
       <h3>Provincias Existentes</h3>
       <ul className="admin-sucursales-list">
         {provincias.map(p => (
-          <li key={p.id}>{p.name}</li>
+          <li key={p.id}>
+            {p.name}
+            <button onClick={() => handleEditProvincia(p)}>Editar</button>
+            <button onClick={() => handleDeleteProvincia(p.id)}>Eliminar</button>
+          </li>
         ))}
       </ul>
 
@@ -125,6 +164,8 @@ export default function AdminSucursales() {
         {sucursales.map(s => (
           <li key={s.id}>
             {s.name} - Provincia: {provincias.find(p => p.id === s.provincia.id)?.name || 'N/A'} - Precio: ${s.price}
+            <button onClick={() => handleEditSucursal(s)}>Editar</button>
+            <button onClick={() => handleDeleteSucursal(s.id)}>Eliminar</button>
           </li>
         ))}
       </ul>
