@@ -121,14 +121,13 @@ export default function Cart() {
       talla: product.size?.talla || 'N/A',
       name: product.name,
       price: product.price
-    }
-  ),
-  {
+    },{
     title: "Costo de envío",
     unit_price: sucursalSeleccionada.price,
     quantity: 1,
     currency_id: "ARS"
-  });
+  }
+  ));
 
     const payload = {
       items,
