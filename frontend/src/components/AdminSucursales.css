@@ -71,3 +71,33 @@
   border-radius: 6px;
   margin-bottom: 0.5rem;
 }
+/* Botones generales */
+.btn-admin {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-left: 0.5rem;
+}
+
+/* Botón editar */
+.btn-admin-edit {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.btn-admin-edit:hover {
+  background-color: #0b5ed7;
+}
+
+/* Botón eliminar */
+.btn-admin-delete {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-admin-delete:hover {
+  background-color: #bb2d3b;
+}
