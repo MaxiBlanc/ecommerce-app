@@ -94,7 +94,7 @@ export default function AdminSucursales() {
         >
           <option value="">Seleccioná una provincia</option>
           {provincias.map(p => (
-            <option key={p.id} value={p.id}>{p.nombre}</option>
+            <option key={p.id} value={p.id}>{p.name}</option>
           ))}
         </select>
         <input
@@ -115,7 +115,7 @@ export default function AdminSucursales() {
       <h3>Provincias Existentes</h3>
       <ul className="admin-sucursales-list">
         {provincias.map(p => (
-          <li key={p.id}>{p.nombre}</li>
+          <li key={p.id}>{p.name}</li>
         ))}
       </ul>
 
@@ -123,7 +123,7 @@ export default function AdminSucursales() {
       <ul className="admin-sucursales-list">
         {sucursales.map(s => (
           <li key={s.id}>
-            {s.nombre} - Provincia: {provincias.find(p => p.id === s.provinciaId)?.nombre || 'N/A'} - Precio: ${s.precio}
+            {s.name} - Provincia: {provincias.find(p => p.id === s.provinciaId)?.name || 'N/A'} - Precio: ${s.price}
           </li>
         ))}
       </ul>
